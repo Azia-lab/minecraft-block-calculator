@@ -293,18 +293,91 @@ button:disabled {
 }
 
 /* Footer */
-.footer {
-    margin-top: 40px;
-    margin-bottom: 0;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+footer {
+    background-color: #111;
+}
+
+.footerContainer {
+    width: 100%;
+    padding: 70px 30px 20px;
+}
+
+.socialIcons {
+    display: flex;
+    justify-content: center;
+}
+
+.socialIcons a {
+    text-decoration: none;
+    padding: 10px;
     background-color: white;
-    border-radius: 5px;
-    color: rgb(111, 0, 255);
-    font-size: 12px;
+    margin: 10px;
+    border-radius: 50%;
+}
+
+.socialIcons a {
+    font-size: 2em;
+    color: black;
+    opacity: 0.9;
+}
+
+/* Hover effect for social icons */
+.socialIcons a:hover {
+    background-color: #111;
+    transition: 0.5s;
+}
+
+.socialIcons a:hover i {
+    color: white;
+    transition: 0.5s;
+}
+
+.footerNav {
+    margin: 30px 0;
+}
+
+.footerNav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.footerNav ul li a {
+    color: white;
+    margin: 20px;
+    text-decoration: none;
+    font-size: 1.3em;
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+.footerNav ul li a :hover {
+    opacity: 1;
+
+}
+
+.footerBottom {
+    background-color: #000;
+    padding: 20px;
     text-align: center;
-    opacity: 0.8;
-    position: relative;
-    z-index: 1;
-    padding: 6px 10px;
+}
+
+.footerBottom p {
+    color: white;
+}
+
+.designer {
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin: 0px 5px;
 }
 
 /* Animation (مستخدمة في JS) */
@@ -337,7 +410,7 @@ button:disabled {
         padding-top: 20px;
     }
 
-      .border {
+    .border {
         width: 92%;
         max-width: 420px;
         padding: 15px 12px;
@@ -420,8 +493,10 @@ button:disabled {
 
     /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
     .history-list li {
-        flex-wrap: wrap;          /* يسمح بالالتفاف */
-        align-items: flex-start;  /* أعلى بدل الوسط */
+        flex-wrap: wrap;
+        /* يسمح بالالتفاف */
+        align-items: flex-start;
+        /* أعلى بدل الوسط */
         gap: 6px;
         font-size: 14px;
     }
@@ -434,19 +509,28 @@ button:disabled {
     /* زر الحذف يمين فوق */
     .h-del {
         order: 2;
-        margin-left: auto;        /* يدزّه لليمين */
+        margin-left: auto;
+        /* يدزّه لليمين */
     }
 
     /* النص ينزل تحت لوحده بعرض كامل */
     .h-text {
         order: 3;
-        flex: 0 0 100%;           /* سطر كامل */
-        white-space: normal;      /* يسمح بتكسير الأسطر */
-        word-break: break-word;   /* يمنع تداخل الكلمات */
+        flex: 0 0 100%;
+        /* سطر كامل */
+        white-space: normal;
+        /* يسمح بتكسير الأسطر */
+        word-break: break-word;
+        /* يمنع تداخل الكلمات */
     }
 
-    .footer {
-        margin-top: 18px;
-        font-size: 11px;
+    .footerNav ul {
+        flex-direction: column;
+    }
+
+    .footerNav ul li {
+        width: 100%;
+        text-align: center;
+        margin: 10px;
     }
 }
