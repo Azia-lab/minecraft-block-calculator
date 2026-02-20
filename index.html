@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minecraft Block Calculator</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="border">
+        <h1>Minecraft Block Calculator</h1>
+
+        <!-- HERO -->
+        <div class="hero">
+            <img class="hero-gif" src="images/zombe.gif" alt="">
+            <img class="hero-villger" src="images/villge.gif" alt="">
+            <img class="hero-barrot" src="images/barrot.gif" alt="">
+        </div>
+
+        <form id="calcForm">
+            <!-- Mode Checkbox -->
+            <div class="mode">
+                <input type="checkbox" id="modeSwitch">
+                <label id="modeLabel" for="modeSwitch">
+                    <span id="modeText">Calculate Stacks</span>
+                </label>
+            </div>
+
+            <label id="mainLabel" for="blocks">Enter the number of blocks :</label>
+            <input type="number" id="blocks" name="blocks" min="0" required>
+
+            <div class="result-row" id="resultRow">
+                <div class="result-box">
+                    <span id="leftTitle">Full Stacks:</span> <span id="stacksValue">-</span>
+                </div>
+                <div class="result-box">
+                    <span id="rightTitle">Remaining Blocks:</span> <span id="remainderValue">-</span>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="btn" type="submit">Calculate</button>
+                <button type="button" id="resetBtn">Restart</button>
+            </div>
+        </form>
+
+        <!-- HISTORY  -->
+        <div class="history">
+            <div class="history-head">
+                <span class="history-title">History</span>
+                <button type="button" id="clearHistory" class="history-clear">Clear</button>
+            </div>
+            <ol id="historyList" class="history-list"></ol>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        Developed by Saud ©️ 2026
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

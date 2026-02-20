@@ -1,0 +1,450 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    background: #000;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    min-height: 100vh;
+
+    background-image: url("images/back4k.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding-top: 50px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+.border {
+    position: relative;
+    z-index: 1;
+    background-color: rgb(56, 41, 29);
+    border: 10px solid rgb(39, 120, 47);
+    border-radius: 5px;
+    padding: 14px 18px;
+    margin-top: 70px;
+}
+
+h1 {
+    font-family: "Bungee", sans-serif;
+    font-weight: 400;
+    color: green;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center;
+    margin: 6px 0 8px;
+}
+
+/* ===== HERO ثابت ===== */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    margin-top: 6px;
+    pointer-events: none;
+}
+
+.hero img {
+    position: absolute;
+    top: 10px;
+    transform: translateX(-50%);
+}
+
+/* توزيع الصور */
+.hero-gif {
+    left: 35%;
+    width: 120px;
+}
+
+.hero-villger {
+    left: 50%;
+    width: 55px;
+}
+
+.hero-barrot {
+    left: 65%;
+    width: 90px;
+}
+
+form {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: green;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#mainLabel {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+/* ===== Checkbox ===== */
+.mode {
+    position: absolute;
+    top: 370px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: white;
+    font-size: 14px;
+    opacity: 0.9;
+
+    z-index: 10;
+}
+
+.mode input {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* input */
+#blocks {
+    margin-top: 10px;
+    height: 36px;
+    width: 320px;
+    max-width: 92%;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* النتائج */
+.result-row {
+    margin-top: 18px;
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    width: 100%;
+    min-height: 40px;
+    align-items: center;
+}
+
+.result-box {
+    color: white;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+/* الأزرار */
+.buttons {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+}
+
+button {
+    font-family: 'Trebuchet MS', sans-serif;
+    padding: 10px 15px;
+    font-size: 17px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+}
+
+#btn,
+#resetBtn {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ألوان واضحة وثابتة */
+#btn {
+    background: rgb(0, 144, 0);
+    color: white;
+}
+
+#btn:hover {
+    background: rgb(0, 80, 0);
+}
+
+#resetBtn {
+    background: #e9e9e9;
+    color: #222;
+}
+
+#resetBtn:hover {
+    background: #9c9c9c;
+}
+
+button:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+/*  History  */
+.history {
+    margin-top: 18px;
+    background-color: rgb(10, 41, 29);
+    border-radius: 5px;
+    padding: 10px 12px;
+}
+
+.history-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.history-title {
+    font-family: "Bungee", sans-serif;
+    color: white;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.history-clear {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e9e9e9;
+    color: #222;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.history-clear:hover {
+    background: #9c9c9c
+}
+
+.history-list {
+    margin: 0;
+    padding-left: 18px;
+    max-height: 180px;
+    overflow: auto;
+}
+
+.history-list li {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+
+    /* مهم لزر الحذف */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-list li:last-child {
+    border-bottom: none;
+}
+
+/* رقم 1- 2- */
+.h-num {
+    flex: 0 0 auto;
+    font-weight: 700;
+}
+
+/* نص السطر */
+.h-text {
+    flex: 1 1 auto;
+}
+
+/* زر حذف عنصر واحد */
+.h-del {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.25);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+}
+
+.h-del:hover {
+    background: rgba(255, 0, 0, 0.25);
+    border-color: rgba(255, 0, 0, 0.35);
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    margin-bottom: 0;
+    background-color: white;
+    border-radius: 5px;
+    color: rgb(111, 0, 255);
+    font-size: 12px;
+    text-align: center;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+    padding: 6px 10px;
+}
+
+/* Animation (مستخدمة في JS) */
+.fade {
+    animation: fadeIn 1.0s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ghost {
+    opacity: 0;
+}
+
+/* =========================
+   Mobile Responsive
+   ========================= */
+@media (max-width: 600px) {
+
+    body {
+        padding-top: 20px;
+    }
+
+    .border {
+        width: 92%;
+        max-width: 420px;
+        padding: 14px 12px;
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+
+    .mode {
+        position: static;
+        margin-top: 8px;
+        justify-content: flex-end;
+    }
+
+    h1 {
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .hero {
+        height: 95px;
+        margin-top: 8px;
+    }
+
+    .hero img {
+        top: 6px;
+    }
+
+    .hero-gif {
+        width: 90px;
+        left: 34%;
+    }
+
+    .hero-villger {
+        width: 45px;
+        left: 50%;
+    }
+
+    .hero-barrot {
+        width: 70px;
+        left: 66%;
+    }
+
+    #blocks {
+        width: 92%;
+        max-width: 360px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .result-row {
+        flex-direction: column;
+        gap: 10px;
+        min-height: auto;
+        margin-top: 14px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #btn,
+    #resetBtn {
+        width: 92%;
+        max-width: 360px;
+        height: 46px;
+        font-size: 18px;
+    }
+
+    .history {
+        margin-top: 14px;
+    }
+
+    .history-list {
+        max-height: 160px;
+    }
+
+    /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
+    .history-list li {
+        flex-wrap: wrap;          /* يسمح بالالتفاف */
+        align-items: flex-start;  /* أعلى بدل الوسط */
+        gap: 6px;
+        font-size: 14px;
+    }
+
+    /* الرقم يبقى يسار فوق */
+    .h-num {
+        order: 1;
+    }
+
+    /* زر الحذف يمين فوق */
+    .h-del {
+        order: 2;
+        margin-left: auto;        /* يدزّه لليمين */
+    }
+
+    /* النص ينزل تحت لوحده بعرض كامل */
+    .h-text {
+        order: 3;
+        flex: 0 0 100%;           /* سطر كامل */
+        white-space: normal;      /* يسمح بتكسير الأسطر */
+        word-break: break-word;   /* يمنع تداخل الكلمات */
+    }
+
+    .footer {
+        margin-top: 18px;
+        font-size: 11px;
+    }
+}
