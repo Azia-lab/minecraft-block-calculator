@@ -338,14 +338,12 @@ button:disabled {
     }
 
     .border {
-        width: 95%;
-        max-width: 380px;
-        /* أصغر من قبل */
-        padding: 10px 10px;
-        /* تقليل الحشو الداخلي */
-        margin-top: 6px;
-        /* تقليل المسافة من الأعلى */
-        box-sizing: border-box;
+        border-width: 4px;
+        /* صغّرناه أكثر */
+        padding: 8px 8px;
+        /* قللنا الحشو */
+        margin-top: 4px;
+        /* قرّبناه للأعلى */
     }
 
     .mode {
