@@ -338,12 +338,11 @@ button:disabled {
     }
 
     .border {
-        border-width: 4px;
-        /* صغّرناه أكثر */
-        padding: 8px 8px;
-        /* قللنا الحشو */
-        margin-top: 4px;
-        /* قرّبناه للأعلى */
+        width: 92%;
+        max-width: 420px;
+        padding: 14px 12px;
+        margin-top: 10px;
+        box-sizing: border-box;
     }
 
     .mode {
@@ -419,10 +418,8 @@ button:disabled {
 
     /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
     .history-list li {
-        flex-wrap: wrap;
-        /* يسمح بالالتفاف */
-        align-items: flex-start;
-        /* أعلى بدل الوسط */
+        flex-wrap: wrap;          /* يسمح بالالتفاف */
+        align-items: flex-start;  /* أعلى بدل الوسط */
         gap: 6px;
         font-size: 14px;
     }
@@ -435,19 +432,15 @@ button:disabled {
     /* زر الحذف يمين فوق */
     .h-del {
         order: 2;
-        margin-left: auto;
-        /* يدزّه لليمين */
+        margin-left: auto;        /* يدزّه لليمين */
     }
 
     /* النص ينزل تحت لوحده بعرض كامل */
     .h-text {
         order: 3;
-        flex: 0 0 100%;
-        /* سطر كامل */
-        white-space: normal;
-        /* يسمح بتكسير الأسطر */
-        word-break: break-word;
-        /* يمنع تداخل الكلمات */
+        flex: 0 0 100%;           /* سطر كامل */
+        white-space: normal;      /* يسمح بتكسير الأسطر */
+        word-break: break-word;   /* يمنع تداخل الكلمات */
     }
 
     .footer {
