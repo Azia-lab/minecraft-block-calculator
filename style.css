@@ -292,19 +292,33 @@ button:disabled {
     border-color: rgba(255, 0, 0, 0.35);
 }
 
-/* Footer */
+/* ===== FOOTER ===== */
+
 .footer {
     margin-top: 40px;
-    margin-bottom: 0;
-    background-color: white;
-    border-radius: 5px;
-    color: rgb(111, 0, 255);
-    font-size: 12px;
+    padding: 30px 20px;
     text-align: center;
-    opacity: 0.8;
-    position: relative;
-    z-index: 1;
-    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ddd;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer h2,
+.footer h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.credit {
+    margin-top: 20px;
+    font-size: 13px;
+    opacity: 0.7;
 }
 
 /* Animation (مستخدمة في JS) */
@@ -337,7 +351,7 @@ button:disabled {
         padding-top: 20px;
     }
 
-      .border {
+    .border {
         width: 92%;
         max-width: 420px;
         padding: 15px 12px;
@@ -420,8 +434,10 @@ button:disabled {
 
     /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
     .history-list li {
-        flex-wrap: wrap;          /* يسمح بالالتفاف */
-        align-items: flex-start;  /* أعلى بدل الوسط */
+        flex-wrap: wrap;
+        /* يسمح بالالتفاف */
+        align-items: flex-start;
+        /* أعلى بدل الوسط */
         gap: 6px;
         font-size: 14px;
     }
@@ -434,19 +450,26 @@ button:disabled {
     /* زر الحذف يمين فوق */
     .h-del {
         order: 2;
-        margin-left: auto;        /* يدزّه لليمين */
+        margin-left: auto;
+        /* يدزّه لليمين */
     }
 
     /* النص ينزل تحت لوحده بعرض كامل */
     .h-text {
         order: 3;
-        flex: 0 0 100%;           /* سطر كامل */
-        white-space: normal;      /* يسمح بتكسير الأسطر */
-        word-break: break-word;   /* يمنع تداخل الكلمات */
+        flex: 0 0 100%;
+        /* سطر كامل */
+        white-space: normal;
+        /* يسمح بتكسير الأسطر */
+        word-break: break-word;
+        /* يمنع تداخل الكلمات */
     }
 
     .footer {
-        margin-top: 18px;
-        font-size: 11px;
-    }
+  padding: 20px 15px;
+}
+
+.footer p {
+  font-size: 13px;
+}
 }
