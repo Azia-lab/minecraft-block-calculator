@@ -315,6 +315,17 @@ button:disabled {
     line-height: 1.6;
 }
 
+.footer-link {
+    color: #00b7ff;
+    /* اختار اللون اللي تبيه */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.footer-link:hover {
+    opacity: 0.85;
+}
+
 .credit {
     margin-top: 20px;
     font-size: 13px;
@@ -466,10 +477,10 @@ button:disabled {
     }
 
     .footer {
-  padding: 20px 15px;
-}
+        padding: 20px 15px;
+    }
 
-.footer p {
-  font-size: 13px;
-}
+    .footer p {
+        font-size: 13px;
+    }
 }
