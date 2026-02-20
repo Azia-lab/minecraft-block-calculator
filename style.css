@@ -343,6 +343,8 @@ button:disabled {
         padding: 15px 12px;
         margin-top: 10px;
         box-sizing: border-box;
+        transform: scale(0.88);
+        transform-origin: top center;
     }
 
     .mode {
