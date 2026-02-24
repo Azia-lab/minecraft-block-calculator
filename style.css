@@ -31,7 +31,7 @@ body {
     padding-top: 50px;
 }
 
-/* طبقة التعتيم (مع إصلاح السكروول) */
+/* طبقة التعتيم */
 body::before {
     content: "";
     position: fixed;
@@ -39,7 +39,6 @@ body::before {
     background: rgba(0, 0, 0, 0.3);
     z-index: 0;
     pointer-events: none;
-    /* ✅ حل مشكلة التمرير */
 }
 
 /* =========================
@@ -245,7 +244,7 @@ button:disabled {
     border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
     display: flex;
     gap: 10px;
-    align-items: center;
+    align-items: center; /* توسيط عمودي للديسكتوب */
 }
 
 .history-clear:hover {
@@ -265,6 +264,7 @@ button:disabled {
     flex: 1;
 }
 
+/* تم تعديل h-del لضمان توسط الحرف داخله */
 .h-del {
     width: 24px;
     height: 24px;
@@ -273,6 +273,11 @@ button:disabled {
     color: white;
     border: none;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    padding: 0;
 }
 
 .h-del:hover {
@@ -344,7 +349,6 @@ button:disabled {
         opacity: 0;
         transform: translateY(-10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -360,10 +364,9 @@ button:disabled {
 
     body {
         padding-top: 10px;
-
     }
 
-     .border {
+    .border {
         width: 92%;
         max-width: 420px;
         padding: 14px 12px;
@@ -442,10 +445,10 @@ button:disabled {
         max-height: 160px;
     }
 
-    /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
+    /* تحديث الهيستوري للجوال لإصلاح مكان الأكس */
     .history-list li {
         flex-wrap: wrap;
-        align-items: flex-start;
+        align-items: center; /* تم التغيير من flex-start إلى center لضبط السطر الأول */
         gap: 6px;
         font-size: 14px;
     }
@@ -457,6 +460,10 @@ button:disabled {
     .h-del {
         order: 2;
         margin-left: auto;
+        /* تكرار خصائص التوسيط لضمان الثبات */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .h-text {
@@ -466,7 +473,6 @@ button:disabled {
         word-break: break-word;
     }
 
-    /* ✅ Footer الجديد (Simple Footer) */
     .simple-footer {
         padding: 28px 16px;
         text-align: center;
