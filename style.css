@@ -361,7 +361,7 @@ button:disabled {
 @media (max-width: 600px) {
 
     .border {
-        margin-top: 25px;
+        margin-top: 15px;
         width: 92%;
         transform: scale(0.9);
         transform-origin: top center;
