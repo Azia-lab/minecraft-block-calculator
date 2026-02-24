@@ -31,7 +31,7 @@ body {
     padding-top: 50px;
 }
 
-/* طبقة التعتيم */
+/* طبقة التعتيم (مع إصلاح السكروول) */
 body::before {
     content: "";
     position: fixed;
@@ -39,6 +39,7 @@ body::before {
     background: rgba(0, 0, 0, 0.3);
     z-index: 0;
     pointer-events: none;
+    /* ✅ حل مشكلة التمرير */
 }
 
 /* =========================
@@ -245,7 +246,6 @@ button:disabled {
     display: flex;
     gap: 10px;
     align-items: center;
-    /* توسيط عمودي للديسكتوب */
 }
 
 .history-clear:hover {
@@ -265,7 +265,6 @@ button:disabled {
     flex: 1;
 }
 
-/* تم تعديل h-del لضمان توسط الحرف داخله */
 .h-del {
     width: 24px;
     height: 24px;
@@ -274,11 +273,6 @@ button:disabled {
     color: white;
     border: none;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-    padding: 0;
 }
 
 .h-del:hover {
@@ -366,148 +360,134 @@ button:disabled {
 
     body {
         padding-top: 10px;
+
     }
 
-    .border {
-        /* التصغير الكلي */
-        transform: scale(0.85);
-        /* يصغر الصندوق وكل ما بداخله بنسبة 15% */
-        transform-origin: top center;
-        /* يجعل نقطة التصغير تبدأ من الأعلى ليبقى الصندوق متمركزاً */
-
-        /* ضبط المساحة */
-        width: 95%;
-        /* زيادة العرض قليلاً لتعويض الفراغ الجانبي الناتج عن التصغير */
-        margin-top: 20px;
-        /* تقليل المسافة العلوية */
-        margin-bottom: -40px;
-        /* تقليل الفراغ الذي يتركه التصغير أسفل الصندوق في الصفحة */
-
+     .border {
+        width: 92%;
+        max-width: 420px;
+        padding: 14px 12px;
+        margin-top: 10px;
         box-sizing: border-box;
     }
-}
 
-.mode {
-    position: static;
-    margin-top: 8px;
-    justify-content: flex-end;
-}
+    .mode {
+        position: static;
+        margin-top: 8px;
+        justify-content: flex-end;
+    }
 
-h1 {
-    font-size: 22px;
-    line-height: 1.2;
-}
+    h1 {
+        font-size: 22px;
+        line-height: 1.2;
+    }
 
-.hero {
-    height: 95px;
-    margin-top: 8px;
-}
+    .hero {
+        height: 95px;
+        margin-top: 8px;
+    }
 
-.hero img {
-    top: 6px;
-}
+    .hero img {
+        top: 6px;
+    }
 
-.hero-gif {
-    width: 90px;
-    left: 34%;
-}
+    .hero-gif {
+        width: 90px;
+        left: 34%;
+    }
 
-.hero-villger {
-    width: 45px;
-    left: 50%;
-}
+    .hero-villger {
+        width: 45px;
+        left: 50%;
+    }
 
-.hero-barrot {
-    width: 70px;
-    left: 66%;
-}
+    .hero-barrot {
+        width: 70px;
+        left: 66%;
+    }
 
-#blocks {
-    width: 92%;
-    max-width: 360px;
-    height: 44px;
-    font-size: 18px;
-}
+    #blocks {
+        width: 92%;
+        max-width: 360px;
+        height: 44px;
+        font-size: 18px;
+    }
 
-.result-row {
-    flex-direction: column;
-    gap: 10px;
-    min-height: auto;
-    margin-top: 14px;
-}
+    .result-row {
+        flex-direction: column;
+        gap: 10px;
+        min-height: auto;
+        margin-top: 14px;
+    }
 
-.buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
 
-#btn,
-#resetBtn {
-    width: 92%;
-    max-width: 360px;
-    height: 46px;
-    font-size: 18px;
-}
+    #btn,
+    #resetBtn {
+        width: 92%;
+        max-width: 360px;
+        height: 46px;
+        font-size: 18px;
+    }
 
-.history {
-    margin-top: 14px;
-}
+    .history {
+        margin-top: 14px;
+    }
 
-.history-list {
-    max-height: 160px;
-}
+    .history-list {
+        max-height: 160px;
+    }
 
-/* تحديث الهيستوري للجوال لإصلاح مكان الأكس */
-.history-list li {
-    flex-wrap: wrap;
-    align-items: center;
-    /* تم التغيير من flex-start إلى center لضبط السطر الأول */
-    gap: 6px;
-    font-size: 14px;
-}
+    /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
+    .history-list li {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 6px;
+        font-size: 14px;
+    }
 
-.h-num {
-    order: 1;
-}
+    .h-num {
+        order: 1;
+    }
 
-.h-del {
-    order: 2;
-    margin-left: auto;
-    /* تكرار خصائص التوسيط لضمان الثبات */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .h-del {
+        order: 2;
+        margin-left: auto;
+    }
 
-.h-text {
-    order: 3;
-    flex: 0 0 100%;
-    white-space: normal;
-    word-break: break-word;
-}
+    .h-text {
+        order: 3;
+        flex: 0 0 100%;
+        white-space: normal;
+        word-break: break-word;
+    }
 
-.simple-footer {
-    padding: 28px 16px;
-    text-align: center;
-}
+    /* ✅ Footer الجديد (Simple Footer) */
+    .simple-footer {
+        padding: 28px 16px;
+        text-align: center;
+    }
 
-.simple-footer h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
+    .simple-footer h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
 
-.footer-description {
-    font-size: 14px;
-    margin-bottom: 14px;
-}
+    .footer-description {
+        font-size: 14px;
+        margin-bottom: 14px;
+    }
 
-.footer-contact {
-    font-size: 14px;
-}
+    .footer-contact {
+        font-size: 14px;
+    }
 
-.footer-credit {
-    font-size: 13px;
-    margin-top: 18px;
-}
+    .footer-credit {
+        font-size: 13px;
+        margin-top: 18px;
+    }
 }
