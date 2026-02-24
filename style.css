@@ -370,10 +370,15 @@ button:disabled {
     }
 
      .border {
-        width: 92%;
-        max-width: 420px;
-        padding: 14px 12px;
-        margin-top: 10px;
+        /* التصغير الكلي */
+        transform: scale(0.85); /* يصغر الصندوق وكل ما بداخله بنسبة 15% */
+        transform-origin: top center; /* يجعل نقطة التصغير تبدأ من الأعلى ليبقى الصندوق متمركزاً */
+        
+        /* ضبط المساحة */
+        width: 95%; /* زيادة العرض قليلاً لتعويض الفراغ الجانبي الناتج عن التصغير */
+        margin-top: 20px; /* تقليل المسافة العلوية */
+        margin-bottom: -40px; /* تقليل الفراغ الذي يتركه التصغير أسفل الصندوق في الصفحة */
+        
         box-sizing: border-box;
     }
 
