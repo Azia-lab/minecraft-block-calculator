@@ -360,6 +360,7 @@ button:disabled {
 
   body {
     padding-top: 10px;
+    margin-top: 10px;
   }
 
   .border {
