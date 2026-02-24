@@ -359,7 +359,7 @@ button:disabled {
 @media (max-width: 600px) {
 
   body {
-    padding-top: 20px;
+    padding-top: 10px;
   }
 
   .border {
