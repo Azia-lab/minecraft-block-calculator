@@ -356,27 +356,28 @@ button:disabled {
 }
 
 /* PHONE RESPONSIVENESS */
+/* =========================
+   PHONE RESPONSIVENESS (UPDATED)
+   ========================= */
 @media (max-width: 600px) {
 
   body {
-    padding-top: 10px;
-     
+    padding-top: 20px;
   }
 
   .border {
-    margin-top: 10px;
-    width: 92%;
+    width: 95%;
     max-width: 420px;
-    padding: 15px 12px;
-    margin-top: 95px;
+    margin: 20px auto;
+    padding: 16px 14px;
     box-sizing: border-box;
-    transform: scale(0.88);
-    transform-origin: top center;
   }
 
+  /* نخلي زر المود طبيعي بدل absolute */
   .mode {
     position: static;
-    margin-top: 8px;
+    margin-top: 10px;
+    display: flex;
     justify-content: flex-end;
   }
 
@@ -385,9 +386,10 @@ button:disabled {
     line-height: 1.2;
   }
 
+  /* HERO */
   .hero {
     height: 95px;
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   .hero img {
@@ -395,7 +397,7 @@ button:disabled {
   }
 
   .hero-gif {
-    width: 90px;
+    width: 85px;
     left: 34%;
   }
 
@@ -409,20 +411,27 @@ button:disabled {
     left: 66%;
   }
 
+  /* INPUT */
   #blocks {
-    width: 92%;
-    max-width: 360px;
+    width: 100%;
     height: 44px;
     font-size: 18px;
   }
 
+  /* RESULTS */
   .result-row {
     flex-direction: column;
     gap: 10px;
-    min-height: auto;
     margin-top: 14px;
+    align-items: center;
   }
 
+  .result-box {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  /* BUTTONS */
   .buttons {
     flex-direction: column;
     align-items: center;
@@ -431,21 +440,21 @@ button:disabled {
 
   #btn,
   #resetBtn {
-    width: 92%;
-    max-width: 360px;
+    width: 100%;
     height: 46px;
-    font-size: 18px;
+    font-size: 17px;
   }
 
+  /* HISTORY */
   .history {
-    margin-top: 14px;
+    margin-top: 16px;
   }
 
   .history-list {
     max-height: 160px;
+    overflow-x: hidden;
   }
 
-  /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
   .history-list li {
     flex-wrap: wrap;
     align-items: flex-start;
@@ -469,10 +478,9 @@ button:disabled {
     word-break: break-word;
   }
 
-  /* ✅ Footer الجديد (Simple Footer) */
+  /* FOOTER */
   .simple-footer {
     padding: 28px 16px;
-    text-align: center;
   }
 
   .simple-footer h3 {
