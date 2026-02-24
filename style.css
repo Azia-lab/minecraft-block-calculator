@@ -355,23 +355,25 @@ button:disabled {
     opacity: 0;
 }
 
-@media screen and (max-width: 600px) {
+/* PHONE RESPONSIVENESS */
+/* =========================
+   PHONE RESPONSIVENESS (UPDATED)
+   ========================= */
+@media (max-width: 600px) {
 
   body {
     padding-top: 20px;
   }
 
-  /* مربع صغير بفراغات من الأطراف */
   .border {
-    width: min(88vw, 340px);      /* صغير وفيه فراغات */
-    aspect-ratio: 1 / 1;          /* مربع */
-    margin: 28px auto 18px;       /* فوق/يمين-يسار/تحت */
-    padding: 16px;
+    width: 95%;
+    max-width: 420px;
+    margin: 20px auto;
+    padding: 16px 14px;
     box-sizing: border-box;
-    overflow: hidden;             /* يمنع أي شيء يطلع خارج المربع */
   }
 
-  /* نخلي زر المود طبيعي */
+  /* نخلي زر المود طبيعي بدل absolute */
   .mode {
     position: static;
     margin-top: 10px;
@@ -380,68 +382,124 @@ button:disabled {
   }
 
   h1 {
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.2;
   }
 
+  /* HERO */
   .hero {
-    height: 85px;
-    margin-top: 8px;
+    height: 95px;
+    margin-top: 10px;
   }
 
-  .hero img { top: 6px; }
+  .hero img {
+    top: 6px;
+  }
 
-  .hero-gif { width: 78px; left: 34%; }
-  .hero-villger { width: 42px; left: 50%; }
-  .hero-barrot { width: 65px; left: 66%; }
+  .hero-gif {
+    width: 85px;
+    left: 34%;
+  }
 
+  .hero-villger {
+    width: 45px;
+    left: 50%;
+  }
+
+  .hero-barrot {
+    width: 70px;
+    left: 66%;
+  }
+
+  /* INPUT */
   #blocks {
     width: 100%;
     height: 44px;
     font-size: 18px;
   }
 
+  /* RESULTS */
   .result-row {
     flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 14px;
     align-items: center;
   }
 
   .result-box {
-    font-size: 15px;
+    font-size: 16px;
     text-align: center;
-    white-space: normal;          /* لأن المربع صغير */
   }
 
+  /* BUTTONS */
   .buttons {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
 
-  #btn, #resetBtn {
+  #btn,
+  #resetBtn {
     width: 100%;
-    height: 44px;
-    font-size: 16px;
+    height: 46px;
+    font-size: 17px;
   }
 
+  /* HISTORY */
   .history {
-    margin-top: 12px;
-    padding: 10px;
+    margin-top: 16px;
   }
 
   .history-list {
-    max-height: 110px;            /* لأن المربع محدود */
-    overflow: auto;
+    max-height: 160px;
     overflow-x: hidden;
   }
 
+  .history-list li {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .h-num {
+    order: 1;
+  }
+
+  .h-del {
+    order: 2;
+    margin-left: auto;
+  }
+
   .h-text {
+    order: 3;
+    flex: 0 0 100%;
+    white-space: normal;
     word-break: break-word;
   }
 
+  /* FOOTER */
   .simple-footer {
     padding: 28px 16px;
+  }
+
+  .simple-footer h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .footer-description {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .footer-contact {
+    font-size: 14px;
+  }
+
+  .footer-credit {
+    font-size: 13px;
+    margin-top: 18px;
   }
 }
