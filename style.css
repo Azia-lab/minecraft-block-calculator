@@ -355,37 +355,140 @@ button:disabled {
     opacity: 0;
 }
 
-/* =========================
-   Mobile Responsive
-   ========================= */
+/* PHONE RESPONSIVENESS */
 @media (max-width: 600px) {
 
-    .border {
-   
-        width: 92%;
-        transform: scale(0.9);
-        transform-origin: top center;
-    }
+  body {
+    padding-top: 20px;
+  }
 
-    .mode {
-        position: static;
-        margin-top: 10px;
-        justify-content: flex-end;
-    }
+  .border {
+    width: 92%;
+    max-width: 420px;
+    padding: 15px 12px;
+    margin-top: 95px;
+    box-sizing: border-box;
+    transform: scale(0.88);
+    transform-origin: top center;
+  }
 
-    .result-row {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .mode {
+    position: static;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
 
-    .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
+  h1 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
 
-    #btn,
-    #resetBtn {
-        width: 100%;
-    }
+  .hero {
+    height: 95px;
+    margin-top: 8px;
+  }
 
+  .hero img {
+    top: 6px;
+  }
+
+  .hero-gif {
+    width: 90px;
+    left: 34%;
+  }
+
+  .hero-villger {
+    width: 45px;
+    left: 50%;
+  }
+
+  .hero-barrot {
+    width: 70px;
+    left: 66%;
+  }
+
+  #blocks {
+    width: 92%;
+    max-width: 360px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .result-row {
+    flex-direction: column;
+    gap: 10px;
+    min-height: auto;
+    margin-top: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #btn,
+  #resetBtn {
+    width: 92%;
+    max-width: 360px;
+    height: 46px;
+    font-size: 18px;
+  }
+
+  .history {
+    margin-top: 14px;
+  }
+
+  .history-list {
+    max-height: 160px;
+  }
+
+  /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
+  .history-list li {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .h-num {
+    order: 1;
+  }
+
+  .h-del {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .h-text {
+    order: 3;
+    flex: 0 0 100%;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* ✅ Footer الجديد (Simple Footer) */
+  .simple-footer {
+    padding: 28px 16px;
+    text-align: center;
+  }
+
+  .simple-footer h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .footer-description {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .footer-contact {
+    font-size: 14px;
+  }
+
+  .footer-credit {
+    font-size: 13px;
+    margin-top: 18px;
+  }
 }
