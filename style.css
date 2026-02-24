@@ -458,6 +458,7 @@ button:disabled {
   .history-list li {
     flex-wrap: wrap;
     align-items: flex-start;
+    align-items: center;
     gap: 6px;
     font-size: 14px;
   }
