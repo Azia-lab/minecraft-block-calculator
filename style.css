@@ -140,8 +140,9 @@ form {
     width: 320px;
     max-width: 92%;
     font-size: 16px;
+    padding: 0 6px;  
+    
 }
-
 /* =========================
    Results
    ========================= */
@@ -273,6 +274,11 @@ button:disabled {
     color: white;
     border: none;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    padding: 0;
 }
 
 .h-del:hover {
