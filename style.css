@@ -356,28 +356,27 @@ button:disabled {
 }
 
 /* PHONE RESPONSIVENESS */
-/* =========================
-   PHONE RESPONSIVENESS (UPDATED)
-   ========================= */
 @media (max-width: 600px) {
 
   body {
-    padding-top: 20px;
+    padding-top: 10px;
+     
   }
 
   .border {
-    width: 95%;
+    margin-top: 10px;
+    width: 92%;
     max-width: 420px;
-    margin: 20px auto;
-    padding: 16px 14px;
+    padding: 15px 12px;
+    margin-top: 95px;
     box-sizing: border-box;
+    transform: scale(0.88);
+    transform-origin: top center;
   }
 
-  /* نخلي زر المود طبيعي بدل absolute */
   .mode {
     position: static;
-    margin-top: 10px;
-    display: flex;
+    margin-top: 8px;
     justify-content: flex-end;
   }
 
@@ -386,10 +385,9 @@ button:disabled {
     line-height: 1.2;
   }
 
-  /* HERO */
   .hero {
     height: 95px;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .hero img {
@@ -397,7 +395,7 @@ button:disabled {
   }
 
   .hero-gif {
-    width: 85px;
+    width: 90px;
     left: 34%;
   }
 
@@ -411,27 +409,20 @@ button:disabled {
     left: 66%;
   }
 
-  /* INPUT */
   #blocks {
-    width: 100%;
+    width: 92%;
+    max-width: 360px;
     height: 44px;
     font-size: 18px;
   }
 
-  /* RESULTS */
   .result-row {
     flex-direction: column;
     gap: 10px;
+    min-height: auto;
     margin-top: 14px;
-    align-items: center;
   }
 
-  .result-box {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  /* BUTTONS */
   .buttons {
     flex-direction: column;
     align-items: center;
@@ -440,25 +431,24 @@ button:disabled {
 
   #btn,
   #resetBtn {
-    width: 100%;
+    width: 92%;
+    max-width: 360px;
     height: 46px;
-    font-size: 17px;
+    font-size: 18px;
   }
 
-  /* HISTORY */
   .history {
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
   .history-list {
     max-height: 160px;
-    overflow-x: hidden;
   }
 
+  /* ✅ Mobile: ترتيب الهيستوري بدون ما يغيّر الديسكتوب */
   .history-list li {
     flex-wrap: wrap;
     align-items: flex-start;
-    align-items: center;
     gap: 6px;
     font-size: 14px;
   }
@@ -479,9 +469,10 @@ button:disabled {
     word-break: break-word;
   }
 
-  /* FOOTER */
+  /* ✅ Footer الجديد (Simple Footer) */
   .simple-footer {
     padding: 28px 16px;
+    text-align: center;
   }
 
   .simple-footer h3 {
