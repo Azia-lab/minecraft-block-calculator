@@ -140,9 +140,10 @@ form {
     width: 320px;
     max-width: 92%;
     font-size: 16px;
-    padding: 0 6px;  
-    
+    padding: 0 6px;
+
 }
+
 /* =========================
    Results
    ========================= */
@@ -361,6 +362,117 @@ button:disabled {
     opacity: 0;
 }
 
+
+/* =========================
+   Custom Clear Modal
+   ========================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 15px;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+/* نفس شكل البوردر */
+.modal-box {
+    background-color: rgb(56, 41, 29);
+    border: 10px solid rgb(39, 120, 47);
+    border-radius: 5px;
+    padding: 18px 20px;
+    width: min(500px, 95%);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+/* العنوان */
+.modal-title {
+    font-family: "Bungee", sans-serif;
+    color: green;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+/* النص */
+.modal-text {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: white;
+    margin-bottom: 18px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* الأزرار */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.modal-btn {
+    font-family: 'Trebuchet MS', sans-serif;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 120px;
+}
+
+/* زر Continue */
+.modal-btn-danger {
+    background: rgb(0, 144, 0);
+    color: white;
+}
+
+.modal-btn-danger:hover {
+    background: rgb(0, 80, 0);
+}
+
+/* زر Back */
+.modal-btn-ghost {
+    background: #e9e9e9;
+    color: #222;
+}
+
+.modal-btn-ghost:hover {
+    background: #9c9c9c;
+}
+
+/* =========================
+   Modal Animation
+   ========================= */
+
+.modal-overlay {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+.modal-box {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.modal-overlay.show .modal-box {
+    transform: scale(1);
+    opacity: 1;
+}
+
 /* PHONE RESPONSIVENESS */
 @media (max-width: 600px) {
 
@@ -369,16 +481,21 @@ button:disabled {
 
     }
 
-     .border {
+    .border {
         /* التصغير الكلي */
-        transform: scale(0.85); /* يصغر الصندوق وكل ما بداخله بنسبة 15% */
-        transform-origin: top center; /* يجعل نقطة التصغير تبدأ من الأعلى ليبقى الصندوق متمركزاً */
-        
+        transform: scale(0.85);
+        /* يصغر الصندوق وكل ما بداخله بنسبة 15% */
+        transform-origin: top center;
+        /* يجعل نقطة التصغير تبدأ من الأعلى ليبقى الصندوق متمركزاً */
+
         /* ضبط المساحة */
-        width: 95%; /* زيادة العرض قليلاً لتعويض الفراغ الجانبي الناتج عن التصغير */
-        margin-top: 20px; /* تقليل المسافة العلوية */
-        margin-bottom: -40px; /* تقليل الفراغ الذي يتركه التصغير أسفل الصندوق في الصفحة */
-        
+        width: 95%;
+        /* زيادة العرض قليلاً لتعويض الفراغ الجانبي الناتج عن التصغير */
+        margin-top: 20px;
+        /* تقليل المسافة العلوية */
+        margin-bottom: -40px;
+        /* تقليل الفراغ الذي يتركه التصغير أسفل الصندوق في الصفحة */
+
         box-sizing: border-box;
     }
 
@@ -501,4 +618,6 @@ button:disabled {
         font-size: 13px;
         margin-top: 18px;
     }
+
+    
 }

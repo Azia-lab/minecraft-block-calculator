@@ -5,16 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minecraft Block Calculator</title>
-    <link rel="icon" type="image/png"  href="images/favicon.png">
-    <meta name="description" content="A simple web tool that helps Minecraft players calculate blocks, stacks, and remaining blocks instantly.">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta name="description"
+        content="A simple web tool that helps Minecraft players calculate blocks, stacks, and remaining blocks instantly.">
     <link rel="stylesheet" href="style.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -86,6 +84,18 @@
 
         </div>
     </footer>
+    <!-- CUSTOM CLEAR MODAL -->
+    <div id="clearModal" class="modal-overlay hidden" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <h2 id="modalTitle" class="modal-title">Clear All Data</h2>
+            <p class="modal-text">Are you sure you want to clear all data?</p>
+
+            <div class="modal-actions">
+                <button type="button" id="modalConfirm" class="modal-btn modal-btn-danger">Continue</button>
+                <button type="button" id="modalCancel" class="modal-btn modal-btn-ghost">Back</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 
