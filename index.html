@@ -5,9 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minecraft Block Calculator</title>
+
     <link rel="icon" type="image/png" href="images/favicon.png">
+
     <meta name="description"
         content="A simple web tool that helps Minecraft players calculate blocks, stacks, and remaining blocks instantly.">
+
     <link rel="stylesheet" href="style.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,10 +19,12 @@
 </head>
 
 <body>
+
     <div class="border">
-        <h1>Minecraft Block Calculator</h1>
 
         <!-- HERO -->
+        <h1>Minecraft Block Calculator</h1>
+
         <div class="hero">
             <img class="hero-gif" src="images/zombe.gif" alt="Zombie GIF">
             <img class="hero-villger" src="images/villge.gif" alt="Villager GIF">
@@ -27,7 +32,8 @@
         </div>
 
         <form id="calcForm">
-            <!-- Mode Checkbox -->
+
+            <!-- Mode Switch -->
             <div class="mode">
                 <input type="checkbox" id="modeSwitch">
                 <label id="modeLabel" for="modeSwitch">
@@ -35,35 +41,57 @@
                 </label>
             </div>
 
-            <label id="mainLabel" for="blocks">Enter the number of blocks :</label>
+            <label id="mainLabel" for="blocks">
+                Enter the number of blocks :
+            </label>
+
             <input type="number" id="blocks" name="blocks" min="0" required>
 
             <div class="result-row" id="resultRow">
+
                 <div class="result-box">
-                    <span id="leftTitle">Full Stacks:</span> <span id="stacksValue">-</span>
+                    <span id="leftTitle">Full Stacks:</span>
+                    <span id="stacksValue">-</span>
                 </div>
+
                 <div class="result-box">
-                    <span id="rightTitle">Remaining Blocks:</span> <span id="remainderValue">-</span>
+                    <span id="rightTitle">Remaining Blocks:</span>
+                    <span id="remainderValue">-</span>
                 </div>
+
             </div>
 
             <div class="buttons">
-                <button id="btn" type="submit">Calculate</button>
-                <button type="button" id="resetBtn">Restart</button>
+                <button id="btn" type="submit">
+                    Calculate
+                </button>
+
+                <button type="button" id="resetBtn">
+                    Restart
+                </button>
             </div>
+
         </form>
 
-        <!-- HISTORY  -->
+        <!-- HISTORY -->
         <div class="history">
+
             <div class="history-head">
                 <span class="history-title">History</span>
-                <button type="button" id="clearHistory" class="history-clear">Clear</button>
+                <button type="button" id="clearHistory" class="history-clear">
+                    Clear
+                </button>
             </div>
+
             <ol id="historyList" class="history-list"></ol>
+
         </div>
 
     </div>
+
+    <!-- FOOTER -->
     <footer class="simple-footer">
+
         <div class="footer-content">
 
             <h3>Minecraft Block Calculator</h3>
@@ -75,7 +103,9 @@
 
             <p class="footer-contact">
                 Contact:
-                <a href="mailto:azia.contact@gmail.com">azia.contact@gmail.com</a>
+                <a href="mailto:azia.contact@gmail.com">
+                    azia.contact@gmail.com
+                </a>
             </p>
 
             <p class="footer-credit">
@@ -83,20 +113,38 @@
             </p>
 
         </div>
+
     </footer>
+
     <!-- CUSTOM CLEAR MODAL -->
     <div id="clearModal" class="modal-overlay hidden" aria-hidden="true">
         <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <h2 id="modalTitle" class="modal-title">Clear All Data</h2>
-            <p class="modal-text">Are you sure you want to clear all data?</p>
+
+            <h2 id="modalTitle" class="modal-title">
+                Clear All Data
+            </h2>
+
+            <p class="modal-text">
+                Are you sure you want to clear all data?
+            </p>
 
             <div class="modal-actions">
-                <button type="button" id="modalConfirm" class="modal-btn modal-btn-danger">Continue</button>
-                <button type="button" id="modalCancel" class="modal-btn modal-btn-ghost">Back</button>
+
+                <button type="button" id="modalConfirm" class="modal-btn modal-btn-danger">
+                    Continue
+                </button>
+
+                <button type="button" id="modalCancel" class="modal-btn modal-btn-ghost">
+                    Back
+                </button>
+
             </div>
+
         </div>
     </div>
+
     <script src="script.js"></script>
+
 </body>
 
 </html>

@@ -17,7 +17,7 @@ const rightTitle = document.getElementById("rightTitle");
 const historyList = document.getElementById("historyList");
 const clearHistoryBtn = document.getElementById("clearHistory");
 
-/* ✅ Modal عناصر (لازم تكون موجودة في الـ HTML) */
+/* ✅ Modal عناصر */
 const clearModal = document.getElementById("clearModal");
 const modalConfirm = document.getElementById("modalConfirm");
 const modalCancel = document.getElementById("modalCancel");
@@ -35,7 +35,7 @@ input.addEventListener("click", () => {
 });
 
 /* =========================
-   ✅ SAVE / LOAD (LocalStorage) - حفظ كل شيء
+   ✅ SAVE / LOAD (LocalStorage)
    ========================= */
 function saveState() {
   const state = {
@@ -60,7 +60,7 @@ function loadState() {
   modeSwitch.checked = !!state.modeChecked;
   historyList.innerHTML = state.historyHTML || "";
 
-  setModeUI(); // يعيد ضبط الواجهة حسب المود
+  setModeUI();
 }
 
 /* حفظ أثناء الكتابة */
@@ -97,8 +97,6 @@ function playFade() {
 }
 
 function setModeUI() {
-  // unchecked = Blocks -> Stacks (الوضع الافتراضي)
-  // checked   = Stacks -> Blocks
   if (modeSwitch.checked) {
     modeText.textContent = "Calculate Blocks";
     mainLabel.textContent = "Enter the number of stacks:";
@@ -137,13 +135,11 @@ function calculate() {
   if (!Number.isFinite(value) || value < 0) return { ok: false };
 
   if (!modeSwitch.checked) {
-    // Blocks -> Stacks
     const blocks = Math.floor(value);
     const stacks = Math.floor(blocks / STACK_SIZE);
     const remainder = blocks % STACK_SIZE;
     return { ok: true, mode: "toStacks", blocks, stacks, remainder };
   } else {
-    // Stacks -> Blocks
     const stacks = Math.floor(value);
     const blocks = stacks * STACK_SIZE;
     return { ok: true, mode: "toBlocks", stacks, blocks };
@@ -151,7 +147,7 @@ function calculate() {
 }
 
 /* =========================
-   ✅ HISTORY
+   ✅ HISTORY Helpers
    ========================= */
 function renumberHistory() {
   const items = historyList.querySelectorAll("li");
@@ -175,8 +171,66 @@ function addToHistory(text) {
   saveState();
 }
 
+/* =========================
+   ✅ Inline Edit (Click to rename)
+   ========================= */
+function startInlineEditLabel(labelSpan) {
+  if (!labelSpan) return;
+
+  const oldText = labelSpan.textContent.trim();
+
+  const inputEl = document.createElement("input");
+  inputEl.type = "text";
+  inputEl.value = oldText;
+  inputEl.maxLength = 24;
+  inputEl.className = "h-label-input";
+  inputEl.setAttribute("aria-label", "Edit label");
+
+  labelSpan.replaceWith(inputEl);
+  inputEl.focus();
+  inputEl.select();
+
+  const commit = () => {
+    const newText = inputEl.value.trim() || oldText;
+
+    const newSpan = document.createElement("span");
+    newSpan.className = "h-label";
+    newSpan.title = "Click to rename";
+    newSpan.textContent = newText;
+
+    inputEl.replaceWith(newSpan);
+    saveState();
+  };
+
+  const cancel = () => {
+    const newSpan = document.createElement("span");
+    newSpan.className = "h-label";
+    newSpan.title = "Click to rename";
+    newSpan.textContent = oldText;
+
+    inputEl.replaceWith(newSpan);
+    saveState();
+  };
+
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") commit();
+    if (e.key === "Escape") cancel();
+  });
+
+  inputEl.addEventListener("blur", commit);
+}
+
+/* ✅ Click events داخل الهيستوري (✅ FIX: Text Node) */
 historyList.addEventListener("click", (e) => {
-  const delBtn = e.target.closest(".h-del");
+  const targetEl = e.target.nodeType === 3 ? e.target.parentElement : e.target;
+
+  const labelSpan = targetEl.closest(".h-label");
+  if (labelSpan) {
+    startInlineEditLabel(labelSpan);
+    return;
+  }
+
+  const delBtn = targetEl.closest(".h-del");
   if (!delBtn) return;
 
   const li = delBtn.closest("li");
@@ -187,13 +241,12 @@ historyList.addEventListener("click", (e) => {
 });
 
 /* =========================
-   ✅ Clear: يفتح المودال بدل confirm
+   ✅ Clear (Modal)
    ========================= */
 clearHistoryBtn.addEventListener("click", () => {
   openClearModal();
 });
 
-/* Continue */
 modalConfirm?.addEventListener("click", () => {
   historyList.innerHTML = "";
   input.value = "";
@@ -208,13 +261,11 @@ modalConfirm?.addEventListener("click", () => {
   input.focus();
 });
 
-/* Back */
 modalCancel?.addEventListener("click", () => {
   closeClearModal();
   input.focus();
 });
 
-/* إغلاق بالنقر خارج الصندوق */
 clearModal?.addEventListener("click", (e) => {
   if (e.target === clearModal) {
     closeClearModal();
@@ -222,7 +273,6 @@ clearModal?.addEventListener("click", (e) => {
   }
 });
 
-/* إغلاق بزر Esc */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && clearModal && !clearModal.classList.contains("hidden")) {
     closeClearModal();
@@ -231,7 +281,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* =========================
-   Restart (كما هو)
+   Restart
    ========================= */
 resetBtn.addEventListener("click", () => {
   input.value = "";
@@ -240,6 +290,7 @@ resetBtn.addEventListener("click", () => {
   setLoading(false);
   playFade();
   input.focus();
+  saveState();
 });
 
 modeSwitch.addEventListener("change", () => {
@@ -282,13 +333,15 @@ form.addEventListener("submit", (e) => {
       remainderValue.textContent = data.remainder;
 
       addToHistory(
-        `Total Blocks: ${data.blocks} | Full Stacks: ${data.stacks} | Remaining Blocks: ${data.remainder}`
+        `<span class="h-label" title="Click to rename">Total Blocks</span>: ${data.blocks} | Full Stacks: ${data.stacks} | Remaining Blocks: ${data.remainder}`
       );
     } else {
       stacksValue.textContent = data.blocks;
       remainderValue.textContent = "";
 
-      addToHistory(`Total Stacks: ${data.stacks} | Total Blocks: ${data.blocks}`);
+      addToHistory(
+        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${data.stacks} | Total Blocks: ${data.blocks}`
+      );
     }
 
     playFade();
