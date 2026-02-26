@@ -1,6 +1,4 @@
-/* =========================
-   Global Reset
-   ========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -28,7 +26,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 
-    padding-top: 50px;
+    padding-top: 0px;
 }
 
 /* طبقة التعتيم */
@@ -42,16 +40,55 @@ body::before {
 }
 
 /* =========================
+   Top SEO Info Bar
+   ========================= */
+.top-seo-bar {
+    width: 100%;
+    background: linear-gradient(to bottom, #000, #11111126); /* نفس الفوتر */
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+    z-index: 5;
+}
+
+.top-seo-bar h2 {
+    color: #00ff66;
+    font-family: 'Trebuchet MS', sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.top-seo-bar p {
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.top-seo-content {
+    max-width: 1000px;
+    margin: auto;
+}
+
+
+.top-seo-bar strong {
+    font-family: "Bungee", sans-serif;
+    color: #00ff66;
+}
+
+
+/* =========================
    Main Container
    ========================= */
 .border {
+    width: 604px;
+    max-width: 95%;
     position: relative;
     z-index: 1;
     background-color: rgb(56, 41, 29);
     border: 10px solid rgb(39, 120, 47);
     border-radius: 5px;
     padding: 14px 18px;
-    margin-top: 70px;
+    margin-top: 30px;
 }
 
 /* =========================
@@ -115,21 +152,51 @@ form {
 }
 
 /* Mode Switch */
+/* Mode Minimal Style */
 .mode {
     position: absolute;
-    top: 370px;
-    right: 10px;
+    top: 334px;
+    right: -2px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    color: white;
-    font-size: 14px;
+    gap: 2px;
+    padding: 6px 8px;       
     z-index: 10;
 }
 
-.mode input {
-    transform: scale(1.2);
+.mode-title {
+    font-family: "Bungee", sans-serif;
+    font-size: 14px;
+    color: #00ff66;
+    
+}
+
+.mode select {
+    width: 135px;            
+    padding: 5px 8px;
+    font-size: 11px;
+
+    border-radius: 5px;
+       
+    background: rgb(34, 35, 29);
+    color: white;
+    outline: none;
     cursor: pointer;
+}
+
+.mode select:hover {
+    background: rgba(0,0,0,0.55);
+}
+.mode select:focus {
+    border-color: rgba(0, 255, 102, 0.95);
+    box-shadow: 0 0 0 3px rgba(0, 255, 102, 0.15);
+}
+
+/* خيارات القائمة */
+.mode select option {
+    background: rgb(10, 41, 29);
+    color: white;
 }
 
 /* Input */
@@ -323,7 +390,7 @@ button:disabled {
    ========================= */
 .simple-footer {
     width: 100%;
-    margin-top: auto;
+    margin-top: 40px;
     background: linear-gradient(to top, #000, #11111126);
     padding: 40px 20px;
     text-align: center;
@@ -498,23 +565,24 @@ button:disabled {
 @media (max-width: 600px) {
 
     body {
-        padding-top: 10px;
+        padding-top: 0px;
     }
 
     .border {
         transform: scale(0.85);
         transform-origin: top center;
         width: 95%;
-        margin-top: 20px;
+        margin-top: 40px;
         margin-bottom: -40px;
         box-sizing: border-box;
     }
 
-    .mode {
-        position: static;
-        margin-top: 8px;
-        justify-content: flex-end;
-    }
+   .mode {
+    position: relative;      /* مهم */
+    top: -7px;              /* قلل/زد الرقم لرفعها للأعلى */
+    margin-top: 5px;         /* خله رقم عادي */
+    align-items: center;     /* أو flex-end إذا تبيه يمين */
+}
 
     h1 {
         font-size: 22px;

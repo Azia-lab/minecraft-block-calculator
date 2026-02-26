@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://azia-lab.github.io/minecraft-block-calculator/sitemap.xml

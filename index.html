@@ -4,119 +4,136 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minecraft Block Calculator</title>
 
+    <!-- SEO Title -->
+    <title>Minecraft Calculator | Stacks & Shulkers</title>
+
+    <!-- SEO Description -->
+    <meta name="description"
+        content="Free Minecraft Block Calculator. Convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly. Fast and simple tool for Minecraft builders.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://azia-lab.github.io/minecraft-block-calculator/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Minecraft Block Calculator">
+    <meta property="og:description"
+        content="Convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://azia-lab.github.io/minecraft-block-calculator/">
+    <meta property="og:image" content="https://azia-lab.github.io/minecraft-block-calculator/images/preview.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Minecraft Block Calculator">
+    <meta name="twitter:description" content="Convert blocks, stacks and shulker boxes instantly.">
+    <meta name="twitter:image" content="https://azia-lab.github.io/minecraft-block-calculator/images/preview.png">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
 
-    <meta name="description"
-        content="A simple web tool that helps Minecraft players calculate blocks, stacks, and remaining blocks instantly.">
-
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Minecraft Block Calculator",
+      "url": "https://azia-lab.github.io/minecraft-block-calculator/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "description": "Free Minecraft block calculator to convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly.",
+      "creator": {
+        "@type": "Person",
+        "name": "Azia"
+      }
+    }
+    </script>
 </head>
 
 <body>
+    <section class="top-seo-bar">
+        <div class="top-seo-content">
+            <h2>Minecraft Calculator</h2>
+            <p>
+                Minecraft Calculator is a free online tool that helps players convert
+                blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly.
+                It is designed for Minecraft builders who want fast and accurate calculations.
+            </p>
 
+            <h2>How It Works</h2>
+            <p>
+                Enter a number, select your conversion mode, and the calculator will instantly
+                convert blocks, stacks, or shulker boxes.
+            </p>
+        </div>
+    </section>
     <div class="border">
 
-        <!-- HERO -->
-        <h1>Minecraft Block Calculator</h1>
+        <h1>Minecraft Calculator</h1>
 
         <div class="hero">
-            <img class="hero-gif" src="images/zombe.gif" alt="Zombie GIF">
-            <img class="hero-villger" src="images/villge.gif" alt="Villager GIF">
-            <img class="hero-barrot" src="images/barrot.gif" alt="Barrot GIF">
+            <img class="hero-gif" src="images/zombe.gif" alt="Minecraft zombie animation" loading="lazy">
+            <img class="hero-villger" src="images/villge.gif" alt="Minecraft villager animation" loading="lazy">
+            <img class="hero-barrot" src="images/barrot.gif" alt="Minecraft parrot animation" loading="lazy">
         </div>
 
         <form id="calcForm">
 
-            <!-- Mode Switch -->
             <div class="mode">
-                <input type="checkbox" id="modeSwitch">
-                <label id="modeLabel" for="modeSwitch">
-                    <span id="modeText">Calculate Stacks</span>
-                </label>
+                <span class="mode-title">Mode:</span>
+                <select id="modeSelect">
+                    <option value="toStacks" selected>Blocks → Stacks</option>
+                    <option value="toBlocks">Stacks → Blocks</option>
+                    <option value="toShulkers">Stacks → Shulkers</option>
+                </select>
             </div>
 
             <label id="mainLabel" for="blocks">
                 Enter the number of blocks :
             </label>
 
-            <input type="number" id="blocks" name="blocks" min="0" required>
+            <input type="number" id="blocks" name="blocks" min="0" inputmode="numeric" step="1" required>
 
             <div class="result-row" id="resultRow">
-
                 <div class="result-box">
                     <span id="leftTitle">Full Stacks:</span>
                     <span id="stacksValue">-</span>
                 </div>
-
                 <div class="result-box">
                     <span id="rightTitle">Remaining Blocks:</span>
                     <span id="remainderValue">-</span>
                 </div>
-
             </div>
 
             <div class="buttons">
-                <button id="btn" type="submit">
-                    Calculate
-                </button>
-
-                <button type="button" id="resetBtn">
-                    Restart
-                </button>
+                <button id="btn" type="submit">Calculate</button>
+                <button type="button" id="resetBtn">Restart</button>
             </div>
 
         </form>
 
-        <!-- HISTORY -->
-        <div class="history">
+        <!-- history-->
 
+
+        <div class="history">
             <div class="history-head">
                 <span class="history-title">History</span>
-                <button type="button" id="clearHistory" class="history-clear">
-                    Clear
-                </button>
+                <button type="button" id="clearHistory" class="history-clear">Clear</button>
             </div>
-
             <ol id="historyList" class="history-list"></ol>
-
         </div>
 
     </div>
 
-    <!-- FOOTER -->
-    <footer class="simple-footer">
-
-        <div class="footer-content">
-
-            <h3>Minecraft Block Calculator</h3>
-
-            <p class="footer-description">
-                A simple tool that helps Minecraft players quickly calculate
-                blocks, stacks, and remaining blocks for their builds.
-            </p>
-
-            <p class="footer-contact">
-                Contact:
-                <a href="mailto:azia.contact@gmail.com">
-                    azia.contact@gmail.com
-                </a>
-            </p>
-
-            <p class="footer-credit">
-                Developed by <span>Azia</span> © 2026
-            </p>
-
-        </div>
-
-    </footer>
-
-    <!-- CUSTOM CLEAR MODAL -->
+ <!-- CUSTOM CLEAR MODAL -->
     <div id="clearModal" class="modal-overlay hidden" aria-hidden="true">
         <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 
@@ -142,6 +159,25 @@
 
         </div>
     </div>
+
+    <footer class="simple-footer">
+        <div class="footer-content">
+            <h3>Minecraft Calculator</h3>
+            <p class="footer-description">
+                A simple tool that helps Minecraft players quickly calculate
+                blocks, stacks, and shulker boxes for their builds.
+            </p>
+            <p class="footer-contact">
+                Contact:
+                <a href="mailto:azia.contact@gmail.com">
+                    azia.contact@gmail.com
+                </a>
+            </p>
+            <p class="footer-credit">
+                Developed by <span>Azia</span> © 2026
+            </p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 

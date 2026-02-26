@@ -1,3 +1,12 @@
+/* =========================
+   Minecraft Block Calculator (v3)
+   Modes:
+   - Blocks → Stacks
+   - Stacks → Blocks
+   - Stacks → Shulkers
+   + Number formatting (1,234)
+   ========================= */
+
 const form = document.getElementById("calcForm");
 const input = document.getElementById("blocks");
 const btn = document.getElementById("btn");
@@ -7,8 +16,10 @@ const stacksValue = document.getElementById("stacksValue");
 const remainderValue = document.getElementById("remainderValue");
 const resultRow = document.getElementById("resultRow");
 
-const modeSwitch = document.getElementById("modeSwitch");
-const modeText = document.getElementById("modeText");
+/* ✅ Mode (Select) */
+const modeSelect = document.getElementById("modeSelect");
+
+/* UI Labels */
 const mainLabel = document.getElementById("mainLabel");
 const leftTitle = document.getElementById("leftTitle");
 const rightTitle = document.getElementById("rightTitle");
@@ -23,6 +34,16 @@ const modalConfirm = document.getElementById("modalConfirm");
 const modalCancel = document.getElementById("modalCancel");
 
 const STACK_SIZE = 64;
+
+/* ✅ Shulker = 27 stacks */
+const SHULKER_SLOTS = 27; // stacks per shulker
+
+/* =========================
+   Number Formatting
+   ========================= */
+function formatNumber(num) {
+  return Number(num).toLocaleString("en-US");
+}
 
 /* =========================
    ✅ تحديد الرقم تلقائياً عند الضغط داخل الحقل
@@ -42,7 +63,7 @@ function saveState() {
     inputValue: input.value,
     stacksValue: stacksValue.textContent,
     remainderValue: remainderValue.textContent,
-    modeChecked: modeSwitch.checked,
+    modeValue: modeSelect?.value || "toStacks",
     historyHTML: historyList.innerHTML,
   };
   localStorage.setItem("minecraftCalcState", JSON.stringify(state));
@@ -57,7 +78,7 @@ function loadState() {
   input.value = state.inputValue || "";
   stacksValue.textContent = state.stacksValue || "-";
   remainderValue.textContent = state.remainderValue || "-";
-  modeSwitch.checked = !!state.modeChecked;
+  if (modeSelect) modeSelect.value = state.modeValue || "toStacks";
   historyList.innerHTML = state.historyHTML || "";
 
   setModeUI();
@@ -97,15 +118,24 @@ function playFade() {
 }
 
 function setModeUI() {
-  if (modeSwitch.checked) {
-    modeText.textContent = "Calculate Blocks";
+  const mode = modeSelect?.value || "toStacks";
+
+  if (mode === "toBlocks") {
+    // Stacks -> Blocks
     mainLabel.textContent = "Enter the number of stacks:";
     leftTitle.textContent = "Total Blocks:";
     rightTitle.innerHTML = "&nbsp;";
     rightTitle.classList.add("ghost");
     remainderValue.textContent = "";
+  } else if (mode === "toShulkers") {
+    // Stacks -> Shulkers
+    mainLabel.textContent = "Enter the number of stacks:";
+    leftTitle.textContent = "Full Shulkers:";
+    rightTitle.textContent = "Remaining Stacks:";
+    rightTitle.classList.remove("ghost");
+    remainderValue.textContent = "-";
   } else {
-    modeText.textContent = "Calculate Stacks";
+    // Blocks -> Stacks
     mainLabel.textContent = "Enter the number of blocks:";
     leftTitle.textContent = "Full Stacks:";
     rightTitle.textContent = "Remaining Blocks:";
@@ -134,16 +164,28 @@ function calculate() {
   const value = Number(raw);
   if (!Number.isFinite(value) || value < 0) return { ok: false };
 
-  if (!modeSwitch.checked) {
+  const mode = modeSelect?.value || "toStacks";
+
+  // Blocks -> Stacks
+  if (mode === "toStacks") {
     const blocks = Math.floor(value);
     const stacks = Math.floor(blocks / STACK_SIZE);
     const remainder = blocks % STACK_SIZE;
-    return { ok: true, mode: "toStacks", blocks, stacks, remainder };
-  } else {
+    return { ok: true, mode, blocks, stacks, remainder };
+  }
+
+  // Stacks -> Blocks
+  if (mode === "toBlocks") {
     const stacks = Math.floor(value);
     const blocks = stacks * STACK_SIZE;
-    return { ok: true, mode: "toBlocks", stacks, blocks };
+    return { ok: true, mode, stacks, blocks };
   }
+
+  // Stacks -> Shulkers
+  const stacks = Math.floor(value);
+  const shulkers = Math.floor(stacks / SHULKER_SLOTS);
+  const remainderStacks = stacks % SHULKER_SLOTS;
+  return { ok: true, mode, stacks, shulkers, remainderStacks };
 }
 
 /* =========================
@@ -251,7 +293,9 @@ modalConfirm?.addEventListener("click", () => {
   historyList.innerHTML = "";
   input.value = "";
   stacksValue.textContent = "-";
-  modeSwitch.checked = false;
+
+  // reset to default mode
+  if (modeSelect) modeSelect.value = "toStacks";
   setModeUI();
 
   localStorage.removeItem("minecraftCalcState");
@@ -284,16 +328,20 @@ document.addEventListener("keydown", (e) => {
    Restart
    ========================= */
 resetBtn.addEventListener("click", () => {
+  const mode = modeSelect?.value || "toStacks";
+
   input.value = "";
   stacksValue.textContent = "-";
-  remainderValue.textContent = modeSwitch.checked ? "" : "-";
+  remainderValue.textContent = mode === "toBlocks" ? "" : "-";
+
   setLoading(false);
   playFade();
   input.focus();
   saveState();
 });
 
-modeSwitch.addEventListener("change", () => {
+/* ✅ Mode change */
+modeSelect?.addEventListener("change", () => {
   input.value = "";
   setModeUI();
   input.focus();
@@ -313,7 +361,8 @@ form.addEventListener("submit", (e) => {
   setLoading(true);
 
   stacksValue.textContent = "...";
-  if (!modeSwitch.checked) remainderValue.textContent = "...";
+  const mode = modeSelect?.value || "toStacks";
+  if (mode !== "toBlocks") remainderValue.textContent = "...";
   playFade();
 
   setTimeout(() => {
@@ -321,7 +370,7 @@ form.addEventListener("submit", (e) => {
 
     if (!data.ok) {
       stacksValue.textContent = "-";
-      remainderValue.textContent = modeSwitch.checked ? "" : "-";
+      remainderValue.textContent = mode === "toBlocks" ? "" : "-";
       playFade();
       setLoading(false);
       saveState();
@@ -329,18 +378,36 @@ form.addEventListener("submit", (e) => {
     }
 
     if (data.mode === "toStacks") {
-      stacksValue.textContent = data.stacks;
-      remainderValue.textContent = data.remainder;
+      stacksValue.textContent = formatNumber(data.stacks);
+      remainderValue.textContent = formatNumber(data.remainder);
 
       addToHistory(
-        `<span class="h-label" title="Click to rename">Total Blocks</span>: ${data.blocks} | Full Stacks: ${data.stacks} | Remaining Blocks: ${data.remainder}`
+        `<span class="h-label" title="Click to rename">Total Blocks</span>: ${formatNumber(
+          data.blocks
+        )} | Full Stacks: ${formatNumber(data.stacks)} | Remaining Blocks: ${formatNumber(
+          data.remainder
+        )}`
       );
-    } else {
-      stacksValue.textContent = data.blocks;
+    } else if (data.mode === "toBlocks") {
+      stacksValue.textContent = formatNumber(data.blocks);
       remainderValue.textContent = "";
 
       addToHistory(
-        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${data.stacks} | Total Blocks: ${data.blocks}`
+        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${formatNumber(
+          data.stacks
+        )} | Total Blocks: ${formatNumber(data.blocks)}`
+      );
+    } else {
+      // toShulkers (Stacks -> Shulkers)
+      stacksValue.textContent = formatNumber(data.shulkers);
+      remainderValue.textContent = formatNumber(data.remainderStacks);
+
+      addToHistory(
+        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${formatNumber(
+          data.stacks
+        )} | Full Shulkers: ${formatNumber(data.shulkers)} | Remaining Stacks: ${formatNumber(
+          data.remainderStacks
+        )}`
       );
     }
 
