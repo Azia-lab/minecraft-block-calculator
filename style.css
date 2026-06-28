@@ -89,6 +89,7 @@ body::before {
     border-radius: 5px;
     padding: 14px 18px;
     margin-top: 30px;
+    margin-bottom: 40px;
 }
 
 /* =========================
@@ -290,6 +291,8 @@ button:disabled {
 .history-head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 8px;
 }
 
@@ -297,6 +300,32 @@ button:disabled {
     font-family: "Bungee", sans-serif;
     color: white;
     font-size: 14px;
+}
+
+
+.history-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.history-copy,
+.history-clear {
+    padding: 7px 12px;
+    font-size: 14px;
+}
+
+.history-copy {
+    background: rgb(0, 144, 0);
+    color: white;
+}
+
+.history-copy:hover:not(:disabled) {
+    background: rgb(0, 80, 0);
+}
+
+.history-copy:disabled {
+    opacity: 0.45;
 }
 
 .history-list {
@@ -390,7 +419,7 @@ button:disabled {
    ========================= */
 .simple-footer {
     width: 100%;
-    margin-top: 40px;
+    margin-top: auto;
     background: linear-gradient(to top, #000, #11111126);
     padding: 40px 20px;
     text-align: center;
@@ -559,6 +588,26 @@ button:disabled {
 .modal-overlay.show .modal-box {
     transform: scale(1);
     opacity: 1;
+}
+
+
+
+/* Gaming monitor layout */
+@media (min-width: 2000px) and (min-height: 1000px) {
+    .top-seo-bar {
+        padding-top: 28px;
+        padding-bottom: 18px;
+    }
+
+    .border {
+        margin-top: clamp(115px, 14vh, 200px);
+        margin-bottom: 24px;
+    }
+
+    .simple-footer {
+        padding-top: 24px;
+        padding-bottom: 64px;
+    }
 }
 
 /* PHONE RESPONSIVENESS */

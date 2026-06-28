@@ -4,43 +4,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- SEO Title -->
     <title>Minecraft Calculator | Stacks & Shulkers</title>
-
-    <!-- SEO Description -->
     <meta name="description"
         content="Free Minecraft Block Calculator. Convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly. Fast and simple tool for Minecraft builders.">
-
-    <!-- Canonical -->
     <link rel="canonical" href="https://azia-lab.github.io/minecraft-block-calculator/">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="Minecraft Block Calculator">
     <meta property="og:description"
         content="Convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://azia-lab.github.io/minecraft-block-calculator/">
     <meta property="og:image" content="https://azia-lab.github.io/minecraft-block-calculator/images/preview.png">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Minecraft Block Calculator">
     <meta name="twitter:description" content="Convert blocks, stacks and shulker boxes instantly.">
     <meta name="twitter:image" content="https://azia-lab.github.io/minecraft-block-calculator/images/preview.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-
-    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -80,9 +62,9 @@
         <h1>Minecraft Calculator</h1>
 
         <div class="hero">
-            <img class="hero-gif" src="images/zombe.gif" alt="Minecraft zombie animation" loading="lazy">
-            <img class="hero-villger" src="images/villge.gif" alt="Minecraft villager animation" loading="lazy">
-            <img class="hero-barrot" src="images/barrot.gif" alt="Minecraft parrot animation" loading="lazy">
+            <img class="hero-gif" src="images/zombe.webp" alt="Minecraft zombie animation" loading="lazy">
+            <img class="hero-villger" src="images/villge.webp" alt="Minecraft villager animation" loading="lazy">
+            <img class="hero-barrot" src="images/barrot.webp" alt="Minecraft parrot animation" loading="lazy">
         </div>
 
         <form id="calcForm">
@@ -119,21 +101,18 @@
             </div>
 
         </form>
-
-        <!-- history-->
-
-
         <div class="history">
             <div class="history-head">
                 <span class="history-title">History</span>
-                <button type="button" id="clearHistory" class="history-clear">Clear</button>
+                <div class="history-actions">
+                    <button type="button" id="copyHistory" class="history-copy" disabled>Copy</button>
+                    <button type="button" id="clearHistory" class="history-clear">Clear</button>
+                </div>
             </div>
             <ol id="historyList" class="history-list"></ol>
         </div>
 
     </div>
-
- <!-- CUSTOM CLEAR MODAL -->
     <div id="clearModal" class="modal-overlay hidden" aria-hidden="true">
         <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 
@@ -148,11 +127,11 @@
             <div class="modal-actions">
 
                 <button type="button" id="modalConfirm" class="modal-btn modal-btn-danger">
-                    Continue
+                    Yes
                 </button>
 
                 <button type="button" id="modalCancel" class="modal-btn modal-btn-ghost">
-                    Back
+                    No
                 </button>
 
             </div>

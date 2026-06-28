@@ -26,6 +26,7 @@ const rightTitle = document.getElementById("rightTitle");
 
 /* ✅ History عناصر */
 const historyList = document.getElementById("historyList");
+const copyHistoryBtn = document.getElementById("copyHistory");
 const clearHistoryBtn = document.getElementById("clearHistory");
 
 /* ✅ Modal عناصر */
@@ -37,6 +38,7 @@ const STACK_SIZE = 64;
 
 /* ✅ Shulker = 27 stacks */
 const SHULKER_SLOTS = 27; // stacks per shulker
+const COPY_CREDIT_TEXT = "Calculated using Minecraft Block Calculator by Azia Lab\nhttps://azia-lab.github.io/minecraft-block-calculator/";
 
 /* =========================
    Number Formatting
@@ -55,6 +57,21 @@ input.addEventListener("click", () => {
   if (input.value !== "") input.select();
 });
 
+const blockedNumberKeys = ["e", "E", "+", "-", "."];
+
+input.addEventListener("keydown", (e) => {
+  if (blockedNumberKeys.includes(e.key)) {
+    e.preventDefault();
+  }
+});
+
+input.addEventListener("paste", (e) => {
+  const pastedText = e.clipboardData?.getData("text") || "";
+  if (!/^\d+$/.test(pastedText.trim())) {
+    e.preventDefault();
+  }
+});
+
 /* =========================
    ✅ SAVE / LOAD (LocalStorage)
    ========================= */
@@ -67,6 +84,11 @@ function saveState() {
     historyHTML: historyList.innerHTML,
   };
   localStorage.setItem("minecraftCalcState", JSON.stringify(state));
+}
+
+function updateCopyButtonState() {
+  if (!copyHistoryBtn) return;
+  copyHistoryBtn.disabled = historyList.children.length === 0;
 }
 
 function loadState() {
@@ -82,6 +104,7 @@ function loadState() {
   historyList.innerHTML = state.historyHTML || "";
 
   setModeUI();
+  updateCopyButtonState();
 }
 
 /* حفظ أثناء الكتابة */
@@ -210,7 +233,53 @@ function addToHistory(text) {
 
   historyList.appendChild(li);
   renumberHistory();
+  updateCopyButtonState();
   saveState();
+}
+
+
+function getHistoryText() {
+  return Array.from(historyList.querySelectorAll("li"))
+    .map((li, index) => {
+      const text = li.querySelector(".h-text")?.textContent.trim() || "";
+      return `${index + 1}- ${text}`;
+    })
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function copyHistoryText() {
+  const historyText = getHistoryText();
+  if (!historyText || copyHistoryBtn?.disabled) return;
+
+  const text = `${historyText}\n\n${COPY_CREDIT_TEXT}`;
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
+    const oldText = copyHistoryBtn.textContent;
+    copyHistoryBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyHistoryBtn.textContent = oldText;
+    }, 1200);
+  } catch (error) {
+    copyHistoryBtn.textContent = "Failed";
+    setTimeout(() => {
+      copyHistoryBtn.textContent = "Copy";
+    }, 1200);
+  }
 }
 
 /* =========================
@@ -279,8 +348,11 @@ historyList.addEventListener("click", (e) => {
   if (li) li.remove();
 
   renumberHistory();
+  updateCopyButtonState();
   saveState();
 });
+
+copyHistoryBtn?.addEventListener("click", copyHistoryText);
 
 /* =========================
    ✅ Clear (Modal)
@@ -291,6 +363,7 @@ clearHistoryBtn.addEventListener("click", () => {
 
 modalConfirm?.addEventListener("click", () => {
   historyList.innerHTML = "";
+  updateCopyButtonState();
   input.value = "";
   stacksValue.textContent = "-";
 
@@ -351,6 +424,7 @@ modeSelect?.addEventListener("change", () => {
 /* تهيئة */
 setModeUI();
 loadState();
+updateCopyButtonState();
 
 /* =========================
    Submit
