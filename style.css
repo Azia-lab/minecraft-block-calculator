@@ -614,15 +614,17 @@ button:disabled {
 @media (max-width: 600px) {
 
     body {
-        padding-top: 0px;
+        padding-top: 0;
+        min-height: 100svh;
     }
 
     .border {
-        transform: scale(0.85);
-        transform-origin: top center;
-        width: 95%;
-        margin-top: 40px;
-        margin-bottom: -40px;
+        transform: none;
+        width: calc(100% - 28px);
+        max-width: 604px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 12px 14px;
         box-sizing: border-box;
     }
 
@@ -722,7 +724,8 @@ button:disabled {
     }
 
     .simple-footer {
-        padding: 28px 16px;
+        margin-top: 0;
+        padding: 28px 16px calc(28px + env(safe-area-inset-bottom));
         text-align: center;
     }
 
