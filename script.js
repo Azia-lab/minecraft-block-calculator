@@ -511,7 +511,6 @@ resetBtn.addEventListener("click", () => {
 modeSelect?.addEventListener("change", () => {
   input.value = "";
   setModeUI();
-  input.focus();
   saveState();
 });
 
