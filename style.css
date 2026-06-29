@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -44,7 +43,8 @@ body::before {
    ========================= */
 .top-seo-bar {
     width: 100%;
-    background: linear-gradient(to bottom, #000, #11111126); /* نفس الفوتر */
+    background: linear-gradient(to bottom, #000, #11111126);
+    /* نفس الفوتر */
     padding: 14px 20px;
     text-align: center;
     font-size: 14px;
@@ -53,8 +53,8 @@ body::before {
 }
 
 .top-seo-bar h2 {
-    color: #00ff66;
-    font-family: 'Trebuchet MS', sans-serif;
+    color: rgb(3, 180, 3);
+    font-family: "Bungee", sans-serif;
     text-decoration: none;
     font-weight: bold;
 }
@@ -62,6 +62,19 @@ body::before {
 .top-seo-bar p {
     color: white;
     font-family: 'Trebuchet MS', sans-serif;
+}
+
+.features-list {
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: inline-block;
+    text-align: left;
+    list-style-position: outside;
+    padding-left: 50px;
+}
+
+.feature-green {
+    color: rgb(3, 180, 3);
 }
 
 .top-seo-content {
@@ -72,7 +85,7 @@ body::before {
 
 .top-seo-bar strong {
     font-family: "Bungee", sans-serif;
-    color: #00ff66;
+    color: rgb(3, 180, 3);
 }
 
 
@@ -97,7 +110,7 @@ body::before {
    ========================= */
 h1 {
     font-family: "Bungee", sans-serif;
-    color: green;
+    color: rgb(3, 180, 3);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     text-align: center;
     margin: 6px 0 8px;
@@ -140,7 +153,7 @@ h1 {
    ========================= */
 form {
     font-family: 'Trebuchet MS', sans-serif;
-    color: green;
+    color: rgb(3, 180, 3);
     font-size: 20px;
     display: flex;
     flex-direction: column;
@@ -155,31 +168,30 @@ form {
 /* Mode Switch */
 /* Mode Minimal Style */
 .mode {
-    position: absolute;
-    top: 334px;
-    right: -2px;
+    position: relative;
+    top: -10px;
+    margin-top: 10px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 2px;
-    padding: 6px 8px;       
-    z-index: 10;
+    gap: 4px;
 }
 
 .mode-title {
     font-family: "Bungee", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: #00ff66;
-    
+
 }
 
 .mode select {
-    width: 135px;            
-    padding: 5px 8px;
-    font-size: 11px;
-
+    width: 225px;
+    max-width: 92vw;
+    padding: 10px 8px;
+    font-size: 16px;
     border-radius: 5px;
-       
     background: rgb(34, 35, 29);
     color: white;
     outline: none;
@@ -187,8 +199,9 @@ form {
 }
 
 .mode select:hover {
-    background: rgba(0,0,0,0.55);
+    background: rgba(0, 0, 0, 0.55);
 }
+
 .mode select:focus {
     border-color: rgba(0, 255, 102, 0.95);
     box-shadow: 0 0 0 3px rgba(0, 255, 102, 0.15);
@@ -381,9 +394,7 @@ button:disabled {
     background: rgba(255, 0, 0, 0.4);
 }
 
-/* =========================
-   ✅ Editable label inside history (واضح أنه clickable)
-   ========================= */
+
 .h-label {
     cursor: pointer;
     padding: 0;
@@ -398,6 +409,78 @@ button:disabled {
 
 .h-label:hover {
     background: rgba(255, 255, 255, 0.14);
+}
+
+
+
+
+.undo-snackbar {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    width: min(520px, calc(100vw - 32px));
+    padding: 14px 16px 18px;
+    border-radius: 6px;
+    background: rgb(10, 41, 29);
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(0, 255, 102, 0.55);
+    z-index: 10000;
+    overflow: hidden;
+    animation: undoSlideUp 0.22s ease-out;
+}
+
+.history-undo-btn {
+    flex: 0 0 auto;
+    padding: 7px 13px;
+    font-size: 14px;
+    background: rgb(0, 144, 0);
+    color: white;
+    border-radius: 5px;
+}
+
+.history-undo-btn:hover {
+    background: rgb(0, 80, 0);
+}
+
+.undo-timer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    background: #00ff66;
+    transform-origin: left center;
+    animation: undoTimer 3s linear forwards;
+}
+
+@keyframes undoSlideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes undoTimer {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
 }
 
 .h-label-input {
@@ -435,13 +518,14 @@ button:disabled {
 
 .simple-footer h3 {
     font-family: "Bungee", sans-serif;
-    color: green;
+    color: rgb(3, 180, 3);
     margin-bottom: 15px;
 }
 
 .footer-description {
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
     font-size: 15px;
-    opacity: 0.8;
     margin-bottom: 20px;
     line-height: 1.6;
 }
@@ -600,7 +684,7 @@ button:disabled {
     }
 
     .border {
-        margin-top: clamp(115px, 14vh, 200px);
+        margin-top: clamp(70px, 9vh, 110px);
         margin-bottom: 24px;
     }
 
@@ -612,6 +696,12 @@ button:disabled {
 
 /* PHONE RESPONSIVENESS */
 @media (max-width: 600px) {
+
+    .undo-snackbar {
+        bottom: 16px;
+        width: calc(100vw - 24px);
+        font-size: 14px;
+    }
 
     body {
         padding-top: 0px;
@@ -626,12 +716,20 @@ button:disabled {
         box-sizing: border-box;
     }
 
-   .mode {
-    position: relative;      /* مهم */
-    top: -7px;              /* قلل/زد الرقم لرفعها للأعلى */
-    margin-top: 5px;         /* خله رقم عادي */
-    align-items: center;     /* أو flex-end إذا تبيه يمين */
-}
+    .mode {
+        position: relative;
+        top: -7px;
+        margin-top: 5px;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    .mode select {
+        width: 225px;
+        max-width: 92vw;
+        font-size: 13px;
+        padding: 10px 10px;
+    }
 
     h1 {
         font-size: 22px;

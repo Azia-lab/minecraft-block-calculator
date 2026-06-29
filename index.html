@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minecraft Calculator | Stacks & Shulkers</title>
-    <meta name="description"
-        content="Free Minecraft Block Calculator. Convert blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly. Fast and simple tool for Minecraft builders.">
+    <title>Minecraft Calculator</title>
+
+    <meta name="description" content="Free Minecraft Calculator. Convert blocks, stacks, 
+        shulker boxes, and more. Fast and easy to use.">
+
     <link rel="canonical" href="https://azia-lab.github.io/minecraft-block-calculator/">
     <meta property="og:title" content="Minecraft Block Calculator">
     <meta property="og:description"
@@ -45,16 +47,17 @@
         <div class="top-seo-content">
             <h2>Minecraft Calculator</h2>
             <p>
-                Minecraft Calculator is a free online tool that helps players convert
-                blocks to stacks, stacks to blocks, and stacks to shulker boxes instantly.
-                It is designed for Minecraft builders who want fast and accurate calculations.
+                Tired of counting Minecraft blocks and converting them into stacks? Don't worry—we've got you covered!
+                Just enter the number of blocks, and the calculator will handle the rest in seconds. You can also
+                convert stacks back into blocks and use many other useful conversion tools.
             </p>
-
-            <h2>How It Works</h2>
-            <p>
-                Enter a number, select your conversion mode, and the calculator will instantly
-                convert blocks, stacks, or shulker boxes.
-            </p>
+            <br>
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>Click on <span class="feature-green">Total Blocks</span> to rename your blocks.</li>
+                <li>Choose from multiple conversion modes.</li>
+                <li>Copy your results to share them with your friends.</li>
+            </ul>
         </div>
     </section>
     <div class="border">
@@ -74,12 +77,15 @@
                 <select id="modeSelect">
                     <option value="toStacks" selected>Blocks → Stacks</option>
                     <option value="toBlocks">Stacks → Blocks</option>
-                    <option value="toShulkers">Stacks → Shulkers</option>
+                    <option value="toShulkers">Stacks → Shulker Boxes</option>
+                    <option value="shulkersToStacks">Shulker Boxes → Stacks</option>
+                    <option value="stacksToDoubleChests">Stacks → Double Chests</option>
+                    <option value="doubleChestsToStacks">Double Chests → Stacks</option>
                 </select>
             </div>
 
             <label id="mainLabel" for="blocks">
-                Enter the number of blocks :
+                Enter Blocks:
             </label>
 
             <input type="number" id="blocks" name="blocks" min="0" inputmode="numeric" step="1" required>
@@ -141,10 +147,10 @@
 
     <footer class="simple-footer">
         <div class="footer-content">
-            <h3>Minecraft Calculator</h3>
+            <h3>Thanks for using the Minecraft Calculator!</h3>
             <p class="footer-description">
-                A simple tool that helps Minecraft players quickly calculate
-                blocks, stacks, and shulker boxes for their builds.
+                I hope you enjoy using this tool. If you have any feedback, suggestions, or find any issues, feel free
+                to contact me using the email below.
             </p>
             <p class="footer-contact">
                 Contact:

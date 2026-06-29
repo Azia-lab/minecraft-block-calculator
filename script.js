@@ -1,11 +1,3 @@
-/* =========================
-   Minecraft Block Calculator (v3)
-   Modes:
-   - Blocks → Stacks
-   - Stacks → Blocks
-   - Stacks → Shulkers
-   + Number formatting (1,234)
-   ========================= */
 
 const form = document.getElementById("calcForm");
 const input = document.getElementById("blocks");
@@ -34,11 +26,15 @@ const clearModal = document.getElementById("clearModal");
 const modalConfirm = document.getElementById("modalConfirm");
 const modalCancel = document.getElementById("modalCancel");
 
+let lastDeletedHistoryItem = null;
+let undoHistoryTimer = null;
+
 const STACK_SIZE = 64;
 
 /* ✅ Shulker = 27 stacks */
 const SHULKER_SLOTS = 27; // stacks per shulker
-const COPY_CREDIT_TEXT = "Calculated using Minecraft Block Calculator by Azia Lab\nhttps://azia-lab.github.io/minecraft-block-calculator/";
+const DOUBLE_CHEST_SLOTS = 54; // stacks per double chest
+const COPY_CREDIT_TEXT = "I used the Minecraft Calculator by Azia Lab. Try it now!\nhttps://azia-lab.github.io/minecraft-block-calculator/";
 
 /* =========================
    Number Formatting
@@ -100,7 +96,10 @@ function loadState() {
   input.value = state.inputValue || "";
   stacksValue.textContent = state.stacksValue || "-";
   remainderValue.textContent = state.remainderValue || "-";
-  if (modeSelect) modeSelect.value = state.modeValue || "toStacks";
+  if (modeSelect) {
+    modeSelect.value = state.modeValue || "toStacks";
+    if (!modeSelect.value) modeSelect.value = "toStacks";
+  }
   historyList.innerHTML = state.historyHTML || "";
 
   setModeUI();
@@ -140,26 +139,48 @@ function playFade() {
   resultRow.classList.add("fade");
 }
 
+function isSingleResultMode(mode) {
+  return ["toBlocks", "shulkersToStacks", "doubleChestsToStacks"].includes(mode);
+}
+
 function setModeUI() {
   const mode = modeSelect?.value || "toStacks";
 
   if (mode === "toBlocks") {
-    // Stacks -> Blocks
-    mainLabel.textContent = "Enter the number of stacks:";
+    mainLabel.textContent = "Enter Stacks:";
     leftTitle.textContent = "Total Blocks:";
+    rightTitle.textContent = "";
     rightTitle.innerHTML = "&nbsp;";
     rightTitle.classList.add("ghost");
     remainderValue.textContent = "";
   } else if (mode === "toShulkers") {
-    // Stacks -> Shulkers
-    mainLabel.textContent = "Enter the number of stacks:";
-    leftTitle.textContent = "Full Shulkers:";
+    mainLabel.textContent = "Enter Stacks:";
+    leftTitle.textContent = "Full Shulker Boxes:";
     rightTitle.textContent = "Remaining Stacks:";
     rightTitle.classList.remove("ghost");
     remainderValue.textContent = "-";
+  } else if (mode === "shulkersToStacks") {
+    mainLabel.textContent = "Enter Shulker Boxes:";
+    leftTitle.textContent = "Total Stacks:";
+    rightTitle.textContent = "";
+    rightTitle.innerHTML = "&nbsp;";
+    rightTitle.classList.add("ghost");
+    remainderValue.textContent = "";
+  } else if (mode === "stacksToDoubleChests") {
+    mainLabel.textContent = "Enter Stacks:";
+    leftTitle.textContent = "Full Double Chests:";
+    rightTitle.textContent = "Remaining Stacks:";
+    rightTitle.classList.remove("ghost");
+    remainderValue.textContent = "-";
+  } else if (mode === "doubleChestsToStacks") {
+    mainLabel.textContent = "Enter Double Chest:";
+    leftTitle.textContent = "Total Stacks:";
+    rightTitle.textContent = "";
+    rightTitle.innerHTML = "&nbsp;";
+    rightTitle.classList.add("ghost");
+    remainderValue.textContent = "";
   } else {
-    // Blocks -> Stacks
-    mainLabel.textContent = "Enter the number of blocks:";
+    mainLabel.textContent = "Enter Blocks:";
     leftTitle.textContent = "Full Stacks:";
     rightTitle.textContent = "Remaining Blocks:";
     rightTitle.classList.remove("ghost");
@@ -180,6 +201,14 @@ function setLoading(isLoading) {
   }
 }
 
+function createSingleResult(mode, inputLabel, inputValue, leftLabel, leftValue) {
+  return { ok: true, mode, inputLabel, inputValue, leftLabel, leftValue, hasRemainder: false };
+}
+
+function createSplitResult(mode, inputLabel, inputValue, leftLabel, leftValue, rightLabel, rightValue) {
+  return { ok: true, mode, inputLabel, inputValue, leftLabel, leftValue, rightLabel, rightValue, hasRemainder: true };
+}
+
 function calculate() {
   const raw = input.value.trim();
   if (raw === "") return { ok: false };
@@ -188,27 +217,34 @@ function calculate() {
   if (!Number.isFinite(value) || value < 0) return { ok: false };
 
   const mode = modeSelect?.value || "toStacks";
+  const amount = Math.floor(value);
 
-  // Blocks -> Stacks
   if (mode === "toStacks") {
-    const blocks = Math.floor(value);
-    const stacks = Math.floor(blocks / STACK_SIZE);
-    const remainder = blocks % STACK_SIZE;
-    return { ok: true, mode, blocks, stacks, remainder };
+    return createSplitResult(mode, "Total Blocks", amount, "Full Stacks", Math.floor(amount / STACK_SIZE), "Remaining Blocks", amount % STACK_SIZE);
   }
 
-  // Stacks -> Blocks
   if (mode === "toBlocks") {
-    const stacks = Math.floor(value);
-    const blocks = stacks * STACK_SIZE;
-    return { ok: true, mode, stacks, blocks };
+    return createSingleResult(mode, "Total Stacks", amount, "Total Blocks", amount * STACK_SIZE);
   }
 
-  // Stacks -> Shulkers
-  const stacks = Math.floor(value);
-  const shulkers = Math.floor(stacks / SHULKER_SLOTS);
-  const remainderStacks = stacks % SHULKER_SLOTS;
-  return { ok: true, mode, stacks, shulkers, remainderStacks };
+  if (mode === "toShulkers") {
+    return createSplitResult(mode, "Total Stacks", amount, "Full Shulker Boxes", Math.floor(amount / SHULKER_SLOTS), "Remaining Stacks", amount % SHULKER_SLOTS);
+  }
+
+  if (mode === "shulkersToStacks") {
+    return createSingleResult(mode, "Total Shulker Boxes", amount, "Total Stacks", amount * SHULKER_SLOTS);
+  }
+
+
+  if (mode === "stacksToDoubleChests") {
+    return createSplitResult(mode, "Total Stacks", amount, "Full Double Chests", Math.floor(amount / DOUBLE_CHEST_SLOTS), "Remaining Stacks", amount % DOUBLE_CHEST_SLOTS);
+  }
+
+  if (mode === "doubleChestsToStacks") {
+    return createSingleResult(mode, "Total Double Chests", amount, "Total Stacks", amount * DOUBLE_CHEST_SLOTS);
+  }
+
+  return { ok: false };
 }
 
 /* =========================
@@ -237,6 +273,49 @@ function addToHistory(text) {
   saveState();
 }
 
+
+function hideHistoryUndo() {
+  const undoBox = document.querySelector(".undo-snackbar");
+  if (undoBox) undoBox.remove();
+
+  if (undoHistoryTimer) {
+    clearTimeout(undoHistoryTimer);
+    undoHistoryTimer = null;
+  }
+}
+
+function showHistoryUndo() {
+  hideHistoryUndo();
+
+  const undoBox = document.createElement("div");
+  undoBox.className = "undo-snackbar";
+  undoBox.innerHTML = `
+    <span>History item removed</span>
+    <button type="button" class="history-undo-btn">Undo</button>
+    <span class="undo-timer" aria-hidden="true"></span>
+  `;
+
+  document.body.appendChild(undoBox);
+
+  undoHistoryTimer = setTimeout(() => {
+    hideHistoryUndo();
+    lastDeletedHistoryItem = null;
+  }, 5000);
+}
+
+function undoHistoryDelete() {
+  if (!lastDeletedHistoryItem) return;
+
+  const { item, index } = lastDeletedHistoryItem;
+  const beforeItem = historyList.children[index] || null;
+  historyList.insertBefore(item, beforeItem);
+
+  lastDeletedHistoryItem = null;
+  hideHistoryUndo();
+  renumberHistory();
+  updateCopyButtonState();
+  saveState();
+}
 
 function getHistoryText() {
   return Array.from(historyList.querySelectorAll("li"))
@@ -345,11 +424,24 @@ historyList.addEventListener("click", (e) => {
   if (!delBtn) return;
 
   const li = delBtn.closest("li");
-  if (li) li.remove();
+  if (li) {
+    lastDeletedHistoryItem = {
+      item: li,
+      index: Array.from(historyList.children).indexOf(li),
+    };
+    li.remove();
+    showHistoryUndo();
+  }
 
   renumberHistory();
   updateCopyButtonState();
   saveState();
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".history-undo-btn")) {
+    undoHistoryDelete();
+  }
 });
 
 copyHistoryBtn?.addEventListener("click", copyHistoryText);
@@ -362,6 +454,8 @@ clearHistoryBtn.addEventListener("click", () => {
 });
 
 modalConfirm?.addEventListener("click", () => {
+  hideHistoryUndo();
+  lastDeletedHistoryItem = null;
   historyList.innerHTML = "";
   updateCopyButtonState();
   input.value = "";
@@ -405,7 +499,7 @@ resetBtn.addEventListener("click", () => {
 
   input.value = "";
   stacksValue.textContent = "-";
-  remainderValue.textContent = mode === "toBlocks" ? "" : "-";
+  remainderValue.textContent = isSingleResultMode(mode) ? "" : "-";
 
   setLoading(false);
   playFade();
@@ -436,7 +530,7 @@ form.addEventListener("submit", (e) => {
 
   stacksValue.textContent = "...";
   const mode = modeSelect?.value || "toStacks";
-  if (mode !== "toBlocks") remainderValue.textContent = "...";
+  remainderValue.textContent = isSingleResultMode(mode) ? "" : "...";
   playFade();
 
   setTimeout(() => {
@@ -444,46 +538,26 @@ form.addEventListener("submit", (e) => {
 
     if (!data.ok) {
       stacksValue.textContent = "-";
-      remainderValue.textContent = mode === "toBlocks" ? "" : "-";
+      remainderValue.textContent = isSingleResultMode(mode) ? "" : "-";
       playFade();
       setLoading(false);
       saveState();
       return;
     }
 
-    if (data.mode === "toStacks") {
-      stacksValue.textContent = formatNumber(data.stacks);
-      remainderValue.textContent = formatNumber(data.remainder);
+    stacksValue.textContent = formatNumber(data.leftValue);
+    remainderValue.textContent = data.hasRemainder ? formatNumber(data.rightValue) : "";
 
-      addToHistory(
-        `<span class="h-label" title="Click to rename">Total Blocks</span>: ${formatNumber(
-          data.blocks
-        )} | Full Stacks: ${formatNumber(data.stacks)} | Remaining Blocks: ${formatNumber(
-          data.remainder
-        )}`
-      );
-    } else if (data.mode === "toBlocks") {
-      stacksValue.textContent = formatNumber(data.blocks);
-      remainderValue.textContent = "";
+    const historyParts = [
+      `<span class="h-label" title="Click to rename">${data.inputLabel}</span>: ${formatNumber(data.inputValue)}`,
+      `${data.leftLabel}: ${formatNumber(data.leftValue)}`,
+    ];
 
-      addToHistory(
-        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${formatNumber(
-          data.stacks
-        )} | Total Blocks: ${formatNumber(data.blocks)}`
-      );
-    } else {
-      // toShulkers (Stacks -> Shulkers)
-      stacksValue.textContent = formatNumber(data.shulkers);
-      remainderValue.textContent = formatNumber(data.remainderStacks);
-
-      addToHistory(
-        `<span class="h-label" title="Click to rename">Total Stacks</span>: ${formatNumber(
-          data.stacks
-        )} | Full Shulkers: ${formatNumber(data.shulkers)} | Remaining Stacks: ${formatNumber(
-          data.remainderStacks
-        )}`
-      );
+    if (data.hasRemainder) {
+      historyParts.push(`${data.rightLabel}: ${formatNumber(data.rightValue)}`);
     }
+
+    addToHistory(historyParts.join(" | "));
 
     playFade();
     setLoading(false);
