@@ -34,7 +34,7 @@ const STACK_SIZE = 64;
 /* ✅ Shulker = 27 stacks */
 const SHULKER_SLOTS = 27; // stacks per shulker
 const DOUBLE_CHEST_SLOTS = 54; // stacks per double chest
-const COPY_CREDIT_TEXT = "I used the Minecraft Calculator by Azia Lab. Try it now!\nhttps://azia-lab.github.io/minecraft-block-calculator/";
+const COPY_CREDIT_TEXT = "I used the Minecraft Calculator by Azia Lab. Try it now!\nhttps://azia-lab.github.io/minecraft-calculator/";
 
 /* =========================
    Number Formatting

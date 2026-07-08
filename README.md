@@ -6,7 +6,7 @@ A fast, lightweight, and user-friendly web application that helps Minecraft play
 
 ## 🚀 Live Demo
 
-🔗 https://azia-lab.github.io/minecraft-block-calculator/
+🔗 https://azia-lab.github.io/minecraft-calculator/
 
 ---
 
