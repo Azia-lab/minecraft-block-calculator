@@ -1,6 +1,6 @@
-# 🧱 Minecraft Block Calculator
+# 🧱 Minecraft Calculator
 
-A simple and practical web tool that helps Minecraft players calculate the total number of blocks needed for their building projects.
+A fast, lightweight, and user-friendly web application that helps Minecraft players perform resource calculations quickly and accurately.
 
 ---
 
@@ -12,54 +12,63 @@ A simple and practical web tool that helps Minecraft players calculate the total
 
 ## 📌 About The Project
 
-Minecraft Block Calculator is a lightweight web application designed to make planning builds easier for Minecraft players.
+Minecraft Calculator is a web application designed to simplify resource planning for Minecraft players.
 
-Instead of manually calculating rows and layers, this tool provides instant and accurate block calculations based on user input.
+Whether you need to convert blocks into stacks, calculate the number of shulker boxes required, or estimate the contents of double chests, the calculator provides instant and accurate results.
 
-The project focuses on simplicity, clean UI, performance, and responsive design.
+The project focuses on performance, simplicity, responsive design, and an intuitive Minecraft-inspired user interface.
 
 ---
 
 ## ✨ Features
 
-- 🧮 Accurate block calculations
+- 🧱 Blocks → Stacks
+- 📦 Stacks → Blocks
+- 🟪 Stacks → Shulker Boxes
+- 📦 Shulker Boxes → Stacks
+- 🗄️ Double Chests → Blocks
+- 🗄️ Double Chests → Stacks
 - 🌐 Multi-language support
+- 📜 Calculation history
+- 📋 One-click copy results
 - 📱 Fully responsive (Desktop & Mobile)
-- 🎨 Clean and minimal interface
+- 🎨 Minecraft-inspired interface
 - ⚡ Fast and lightweight
 
 ---
 
 ## 🛠️ Built With
 
-- HTML5  
-- CSS3  
-- JavaScript  
+- HTML5
+- CSS3
+- JavaScript
 
 ---
 
 ## 📷 Screenshots
 
 ### 💻 Desktop View
-![Desktop Preview](images/desktop-preview.png)
+![Desktop Preview](images/desktop-preview-v2.png)
 
 ### 📱 Mobile View
-![Mobile Preview](images/mobile-preview.png)
+![Mobile Preview](images/mobile-preview-v2.png)
 
 ---
 
 ## 🎯 Purpose
 
-This project was built as a front-end practice project to improve skills in:
+This project was created to improve front-end web development skills while building a practical tool for the Minecraft community.
 
-- DOM manipulation  
-- UI structuring  
-- Responsive layout design  
-- Git & GitHub workflow  
-- Deploying with GitHub Pages  
+The project provided hands-on experience with:
+
+- DOM manipulation
+- Responsive web design
+- User interface development
+- Git & GitHub workflow
+- GitHub Pages deployment
 
 ---
 
 ## 📄 License
 
-This project is open-source and available for learning purposes.
+This project is open source and intended for educational and personal use.
