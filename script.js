@@ -26,8 +26,10 @@ const clearModal = document.getElementById("clearModal");
 const modalConfirm = document.getElementById("modalConfirm");
 const modalCancel = document.getElementById("modalCancel");
 
-let lastDeletedHistoryItem = null;
-let undoHistoryTimer = null;
+let deletedHistoryItems = new Map();
+let nextHistoryUndoId = 0;
+let nextHistoryOrder = 0;
+let copyNotificationTimer = null;
 
 const STACK_SIZE = 64;
 
@@ -87,6 +89,22 @@ function updateCopyButtonState() {
   copyHistoryBtn.disabled = historyList.children.length === 0;
 }
 
+function assignHistoryOrder(li) {
+  const existingOrder = Number(li?.dataset?.historyOrder);
+  if (Number.isFinite(existingOrder)) {
+    nextHistoryOrder = Math.max(nextHistoryOrder, existingOrder + 1);
+    return existingOrder;
+  }
+
+  const order = nextHistoryOrder++;
+  li.dataset.historyOrder = String(order);
+  return order;
+}
+
+function syncHistoryOrder() {
+  Array.from(historyList.children).forEach(assignHistoryOrder);
+}
+
 function loadState() {
   const saved = localStorage.getItem("minecraftCalcState");
   if (!saved) return;
@@ -101,6 +119,7 @@ function loadState() {
     if (!modeSelect.value) modeSelect.value = "toStacks";
   }
   historyList.innerHTML = state.historyHTML || "";
+  syncHistoryOrder();
 
   setModeUI();
   updateCopyButtonState();
@@ -140,7 +159,7 @@ function playFade() {
 }
 
 function isSingleResultMode(mode) {
-  return ["toBlocks", "shulkersToStacks", "doubleChestsToStacks"].includes(mode);
+  return ["toBlocks", "shulkersToStacks"].includes(mode);
 }
 
 function setModeUI() {
@@ -175,10 +194,9 @@ function setModeUI() {
   } else if (mode === "doubleChestsToStacks") {
     mainLabel.textContent = "Enter Double Chest:";
     leftTitle.textContent = "Total Stacks:";
-    rightTitle.textContent = "";
-    rightTitle.innerHTML = "&nbsp;";
-    rightTitle.classList.add("ghost");
-    remainderValue.textContent = "";
+    rightTitle.textContent = "Total Blocks:";
+    rightTitle.classList.remove("ghost");
+    remainderValue.textContent = "-";
   } else {
     mainLabel.textContent = "Enter Blocks:";
     leftTitle.textContent = "Full Stacks:";
@@ -241,7 +259,9 @@ function calculate() {
   }
 
   if (mode === "doubleChestsToStacks") {
-    return createSingleResult(mode, "Total Double Chests", amount, "Total Stacks", amount * DOUBLE_CHEST_SLOTS);
+    const totalStacks = amount * DOUBLE_CHEST_SLOTS;
+    const totalBlocks = totalStacks * STACK_SIZE;
+    return createSplitResult(mode, "Total Double Chests", amount, "Total Stacks", totalStacks, "Total Blocks", totalBlocks);
   }
 
   return { ok: false };
@@ -260,6 +280,7 @@ function renumberHistory() {
 
 function addToHistory(text) {
   const li = document.createElement("li");
+  assignHistoryOrder(li);
 
   li.innerHTML = `
     <span class="h-num"></span>
@@ -274,44 +295,75 @@ function addToHistory(text) {
 }
 
 
-function hideHistoryUndo() {
-  const undoBox = document.querySelector(".undo-snackbar");
-  if (undoBox) undoBox.remove();
-
-  if (undoHistoryTimer) {
-    clearTimeout(undoHistoryTimer);
-    undoHistoryTimer = null;
+function getHistoryUndoStack() {
+  let stack = document.querySelector(".undo-stack");
+  if (!stack) {
+    stack = document.createElement("div");
+    stack.className = "undo-stack";
+    document.body.appendChild(stack);
   }
+  return stack;
 }
 
-function showHistoryUndo() {
-  hideHistoryUndo();
+function removeHistoryUndo(undoId, shouldForget = true) {
+  const undoData = deletedHistoryItems.get(undoId);
+  if (undoData?.timer) clearTimeout(undoData.timer);
 
+  const undoBox = document.querySelector(`.undo-snackbar[data-undo-id="${undoId}"]`);
+  if (undoBox) undoBox.remove();
+
+  const stack = document.querySelector(".undo-stack");
+  if (stack && stack.children.length === 0) stack.remove();
+
+  if (shouldForget) deletedHistoryItems.delete(undoId);
+}
+
+function hideHistoryUndo() {
+  deletedHistoryItems.forEach((undoData) => {
+    if (undoData.timer) clearTimeout(undoData.timer);
+  });
+  deletedHistoryItems.clear();
+
+  const stack = document.querySelector(".undo-stack");
+  if (stack) stack.remove();
+}
+
+function showHistoryUndo(item, index, nextItem) {
+  const undoId = String(++nextHistoryUndoId);
   const undoBox = document.createElement("div");
   undoBox.className = "undo-snackbar";
+  undoBox.dataset.undoId = undoId;
   undoBox.innerHTML = `
     <span>History item removed</span>
     <button type="button" class="history-undo-btn">Undo</button>
     <span class="undo-timer" aria-hidden="true"></span>
   `;
 
-  document.body.appendChild(undoBox);
+  getHistoryUndoStack().appendChild(undoBox);
 
-  undoHistoryTimer = setTimeout(() => {
-    hideHistoryUndo();
-    lastDeletedHistoryItem = null;
+  const timer = setTimeout(() => {
+    removeHistoryUndo(undoId);
   }, 5000);
+
+  deletedHistoryItems.set(undoId, { item, index, nextItem, timer });
 }
 
-function undoHistoryDelete() {
-  if (!lastDeletedHistoryItem) return;
+function undoHistoryDelete(undoId) {
+  const undoData = deletedHistoryItems.get(undoId);
+  if (!undoData) return;
 
-  const { item, index } = lastDeletedHistoryItem;
-  const beforeItem = historyList.children[index] || null;
+  const { item, index, nextItem } = undoData;
+  const itemOrder = Number(item.dataset.historyOrder);
+  const beforeItem = Number.isFinite(itemOrder)
+    ? Array.from(historyList.children).find((currentItem) => {
+      const currentOrder = Number(currentItem.dataset.historyOrder);
+      return Number.isFinite(currentOrder) && currentOrder > itemOrder;
+    }) || null
+    : nextItem?.parentElement === historyList ? nextItem : historyList.children[index] || null;
   historyList.insertBefore(item, beforeItem);
 
-  lastDeletedHistoryItem = null;
-  hideHistoryUndo();
+  removeHistoryUndo(undoId, false);
+  deletedHistoryItems.delete(undoId);
   renumberHistory();
   updateCopyButtonState();
   saveState();
@@ -325,6 +377,29 @@ function getHistoryText() {
     })
     .filter(Boolean)
     .join("\n");
+}
+
+function hideCopyNotification() {
+  const notification = document.querySelector(".copy-snackbar");
+  if (notification) notification.remove();
+
+  if (copyNotificationTimer) {
+    clearTimeout(copyNotificationTimer);
+    copyNotificationTimer = null;
+  }
+}
+
+function showCopyNotification() {
+  hideCopyNotification();
+
+  const notification = document.createElement("div");
+  notification.className = "copy-snackbar";
+  notification.textContent = "Copied to clipboard!";
+  document.body.appendChild(notification);
+
+  copyNotificationTimer = setTimeout(() => {
+    hideCopyNotification();
+  }, 2000);
 }
 
 async function copyHistoryText() {
@@ -350,9 +425,10 @@ async function copyHistoryText() {
 
     const oldText = copyHistoryBtn.textContent;
     copyHistoryBtn.textContent = "Copied!";
+    showCopyNotification();
     setTimeout(() => {
       copyHistoryBtn.textContent = oldText;
-    }, 1200);
+    }, 1500);
   } catch (error) {
     copyHistoryBtn.textContent = "Failed";
     setTimeout(() => {
@@ -425,12 +501,10 @@ historyList.addEventListener("click", (e) => {
 
   const li = delBtn.closest("li");
   if (li) {
-    lastDeletedHistoryItem = {
-      item: li,
-      index: Array.from(historyList.children).indexOf(li),
-    };
+    const index = Array.from(historyList.children).indexOf(li);
+    const nextItem = li.nextElementSibling;
     li.remove();
-    showHistoryUndo();
+    showHistoryUndo(li, index, nextItem);
   }
 
   renumberHistory();
@@ -439,8 +513,10 @@ historyList.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  if (e.target.closest(".history-undo-btn")) {
-    undoHistoryDelete();
+  const undoBtn = e.target.closest(".history-undo-btn");
+  if (undoBtn) {
+    const undoBox = undoBtn.closest(".undo-snackbar");
+    undoHistoryDelete(undoBox?.dataset.undoId);
   }
 });
 
@@ -455,7 +531,6 @@ clearHistoryBtn.addEventListener("click", () => {
 
 modalConfirm?.addEventListener("click", () => {
   hideHistoryUndo();
-  lastDeletedHistoryItem = null;
   historyList.innerHTML = "";
   updateCopyButtonState();
   input.value = "";
@@ -469,25 +544,21 @@ modalConfirm?.addEventListener("click", () => {
 
   closeClearModal();
   playFade();
-  input.focus();
 });
 
 modalCancel?.addEventListener("click", () => {
   closeClearModal();
-  input.focus();
 });
 
 clearModal?.addEventListener("click", (e) => {
   if (e.target === clearModal) {
     closeClearModal();
-    input.focus();
   }
 });
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && clearModal && !clearModal.classList.contains("hidden")) {
     closeClearModal();
-    input.focus();
   }
 });
 
@@ -503,7 +574,6 @@ resetBtn.addEventListener("click", () => {
 
   setLoading(false);
   playFade();
-  input.focus();
   saveState();
 });
 

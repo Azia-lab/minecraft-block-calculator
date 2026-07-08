@@ -11,6 +11,33 @@ body {
     overflow-x: hidden;
 }
 
+html {
+    background-color: #000;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/back4k.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+    html {
+        background-image: none;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/back4k.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+        pointer-events: none;
+    }
+}
+
 /* =========================
    Body Layout
    ========================= */
@@ -21,19 +48,12 @@ body {
     min-height: 100vh;
     min-height: 100dvh;
 
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/back4k.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: transparent;
 
     padding-top: 0px;
 }
 
 /* طبقة التعتيم */
-body::before {
-    content: none;
-}
-
 /* =========================
    Top SEO Info Bar
    ========================= */
@@ -333,6 +353,12 @@ button:disabled {
     background: rgb(0, 80, 0);
 }
 
+.history-copy:focus,
+.history-copy:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .history-copy:disabled {
     opacity: 0.45;
 }
@@ -412,12 +438,22 @@ button:disabled {
 
 
 
-.undo-snackbar {
+.undo-stack {
     position: fixed;
     left: 50%;
     bottom: 24px;
     transform: translateX(-50%);
     width: min(520px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.undo-snackbar {
+    position: relative;
+    width: 100%;
     padding: 14px 16px 18px;
     border-radius: 6px;
     background: rgb(10, 41, 29);
@@ -430,9 +466,9 @@ button:disabled {
     gap: 14px;
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
     border: 2px solid rgba(0, 255, 102, 0.55);
-    z-index: 10000;
     overflow: hidden;
-    animation: undoSlideUp 0.22s ease-out;
+    pointer-events: auto;
+    animation: undoItemSlideUp 0.22s ease-out;
 }
 
 .history-undo-btn {
@@ -448,6 +484,23 @@ button:disabled {
     background: rgb(0, 80, 0);
 }
 
+.copy-snackbar {
+    position: fixed;
+    left: 50%;
+    top: 24px;
+    transform: translateX(-50%);
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: rgb(10, 41, 29);
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(0, 255, 102, 0.55);
+    z-index: 10000;
+    animation: undoSlideUp 0.22s ease-out;
+}
+
 .undo-timer {
     position: absolute;
     left: 0;
@@ -456,7 +509,7 @@ button:disabled {
     width: 100%;
     background: #00ff66;
     transform-origin: left center;
-    animation: undoTimer 3s linear forwards;
+    animation: undoTimer 5s linear forwards;
 }
 
 @keyframes undoSlideUp {
@@ -468,6 +521,18 @@ button:disabled {
     to {
         opacity: 1;
         transform: translate(-50%, 0);
+    }
+}
+
+@keyframes undoItemSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -695,9 +760,18 @@ button:disabled {
 /* PHONE RESPONSIVENESS */
 @media (max-width: 600px) {
 
-    .undo-snackbar {
+    .undo-stack {
         bottom: 16px;
         width: calc(100vw - 24px);
+    }
+
+    .undo-snackbar {
+        font-size: 14px;
+    }
+
+    .copy-snackbar {
+        top: 16px;
+        max-width: calc(100vw - 24px);
         font-size: 14px;
     }
 
