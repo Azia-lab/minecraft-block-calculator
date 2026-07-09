@@ -10,6 +10,7 @@ const resultRow = document.getElementById("resultRow");
 
 /* ✅ Mode (Select) */
 const modeSelect = document.getElementById("modeSelect");
+const stackSizeInputs = document.querySelectorAll('input[name="stackSize"]');
 
 /* UI Labels */
 const mainLabel = document.getElementById("mainLabel");
@@ -31,7 +32,7 @@ let nextHistoryUndoId = 0;
 let nextHistoryOrder = 0;
 let copyNotificationTimer = null;
 
-const STACK_SIZE = 64;
+const DEFAULT_STACK_SIZE = 64;
 
 /* ✅ Shulker = 27 stacks */
 const SHULKER_SLOTS = 27; // stacks per shulker
@@ -43,6 +44,21 @@ const COPY_CREDIT_TEXT = "I used the Minecraft Calculator by Azia Lab. Try it no
    ========================= */
 function formatNumber(num) {
   return Number(num).toLocaleString("en-US");
+}
+
+function normalizeStackSize(value) {
+  return Number(value) === 16 ? 16 : DEFAULT_STACK_SIZE;
+}
+
+function getStackSize() {
+  const selected = Array.from(stackSizeInputs).find((option) => option.checked);
+  return normalizeStackSize(selected?.value);
+}
+
+function setStackSize(value) {
+  const stackSize = normalizeStackSize(value);
+  const option = Array.from(stackSizeInputs).find((inputOption) => inputOption.value === String(stackSize));
+  if (option) option.checked = true;
 }
 
 /* =========================
@@ -79,6 +95,7 @@ function saveState() {
     stacksValue: stacksValue.textContent,
     remainderValue: remainderValue.textContent,
     modeValue: modeSelect?.value || "toStacks",
+    stackSizeValue: String(getStackSize()),
     historyHTML: historyList.innerHTML,
   };
   localStorage.setItem("minecraftCalcState", JSON.stringify(state));
@@ -118,6 +135,7 @@ function loadState() {
     modeSelect.value = state.modeValue || "toStacks";
     if (!modeSelect.value) modeSelect.value = "toStacks";
   }
+  setStackSize(state.stackSizeValue);
   historyList.innerHTML = state.historyHTML || "";
   syncHistoryOrder();
 
@@ -159,7 +177,7 @@ function playFade() {
 }
 
 function isSingleResultMode(mode) {
-  return ["toBlocks", "shulkersToStacks"].includes(mode);
+  return ["toBlocks"].includes(mode);
 }
 
 function setModeUI() {
@@ -181,10 +199,9 @@ function setModeUI() {
   } else if (mode === "shulkersToStacks") {
     mainLabel.textContent = "Enter Shulker Boxes:";
     leftTitle.textContent = "Total Stacks:";
-    rightTitle.textContent = "";
-    rightTitle.innerHTML = "&nbsp;";
-    rightTitle.classList.add("ghost");
-    remainderValue.textContent = "";
+    rightTitle.textContent = "Total Blocks:";
+    rightTitle.classList.remove("ghost");
+    remainderValue.textContent = "-";
   } else if (mode === "stacksToDoubleChests") {
     mainLabel.textContent = "Enter Stacks:";
     leftTitle.textContent = "Full Double Chests:";
@@ -236,13 +253,14 @@ function calculate() {
 
   const mode = modeSelect?.value || "toStacks";
   const amount = Math.floor(value);
+  const stackSize = getStackSize();
 
   if (mode === "toStacks") {
-    return createSplitResult(mode, "Total Blocks", amount, "Full Stacks", Math.floor(amount / STACK_SIZE), "Remaining Blocks", amount % STACK_SIZE);
+    return createSplitResult(mode, "Total Blocks", amount, "Full Stacks", Math.floor(amount / stackSize), "Remaining Blocks", amount % stackSize);
   }
 
   if (mode === "toBlocks") {
-    return createSingleResult(mode, "Total Stacks", amount, "Total Blocks", amount * STACK_SIZE);
+    return createSingleResult(mode, "Total Stacks", amount, "Total Blocks", amount * stackSize);
   }
 
   if (mode === "toShulkers") {
@@ -250,7 +268,9 @@ function calculate() {
   }
 
   if (mode === "shulkersToStacks") {
-    return createSingleResult(mode, "Total Shulker Boxes", amount, "Total Stacks", amount * SHULKER_SLOTS);
+    const totalStacks = amount * SHULKER_SLOTS;
+    const totalBlocks = totalStacks * stackSize;
+    return createSplitResult(mode, "Total Shulker Boxes", amount, "Total Stacks", totalStacks, "Total Blocks", totalBlocks);
   }
 
 
@@ -260,7 +280,7 @@ function calculate() {
 
   if (mode === "doubleChestsToStacks") {
     const totalStacks = amount * DOUBLE_CHEST_SLOTS;
-    const totalBlocks = totalStacks * STACK_SIZE;
+    const totalBlocks = totalStacks * stackSize;
     return createSplitResult(mode, "Total Double Chests", amount, "Total Stacks", totalStacks, "Total Blocks", totalBlocks);
   }
 
@@ -538,6 +558,7 @@ modalConfirm?.addEventListener("click", () => {
 
   // reset to default mode
   if (modeSelect) modeSelect.value = "toStacks";
+  setStackSize(DEFAULT_STACK_SIZE);
   setModeUI();
 
   localStorage.removeItem("minecraftCalcState");
@@ -582,6 +603,15 @@ modeSelect?.addEventListener("change", () => {
   input.value = "";
   setModeUI();
   saveState();
+});
+
+stackSizeInputs.forEach((option) => {
+  option.addEventListener("change", () => {
+    const mode = modeSelect?.value || "toStacks";
+    stacksValue.textContent = "-";
+    remainderValue.textContent = isSingleResultMode(mode) ? "" : "-";
+    saveState();
+  });
 });
 
 /* تهيئة */

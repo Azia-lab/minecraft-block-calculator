@@ -229,6 +229,44 @@ form {
     color: white;
 }
 
+.stack-size {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: -4px;
+    margin-bottom: 14px;
+}
+
+.stack-size-title {
+    font-family: "Bungee", sans-serif;
+    font-size: 16px;
+    color: #00ff66;
+}
+
+.stack-size-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    color: white;
+    font-size: 18px;
+}
+
+.stack-size-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.stack-size-option input {
+    width: 16px;
+    height: 16px;
+    accent-color: rgb(0, 144, 0);
+    cursor: pointer;
+}
+
 /* Input */
 #blocks {
     margin-top: 10px;
@@ -802,6 +840,16 @@ button:disabled {
     font-size: 13px;
     padding: 10px 10px;
 }
+
+    .stack-size {
+        margin-top: -2px;
+        margin-bottom: 12px;
+    }
+
+    .stack-size-options {
+        gap: 20px;
+        font-size: 16px;
+    }
 
     h1 {
         font-size: 22px;
